@@ -1,0 +1,2164 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Катя Борисова</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&family=Inter:wght@600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+/* ============ TOKENS ============ */
+:root{
+  /* dark / default — chocolate screening room, tones pulled from the hero photo */
+  --bg: #2A1C15;
+  --bg-raised: #3A2A20;
+  --bg-raised-2: #46332A;
+  --ink: #F5E8D8;
+  --ink-dim: #CBB49E;
+  --ink-faint: #9C8570;
+  --accent: #D69568;
+  --accent-strong: #E7B48A;
+  --wine: #8B4738;
+  --wine-strong: #B15E4C;
+  --line: rgba(245,232,216,0.14);
+  --line-strong: rgba(245,232,216,0.26);
+  --shadow: rgba(15,9,5,0.6);
+  --grain-opacity: 0.05;
+}
+/* Site is intentionally always the chocolate dark palette, regardless of
+   the visitor's system light/dark setting — Kate wants one consistent look. */
+
+*{ box-sizing: border-box; }
+html{ scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior: auto; }
+  *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+}
+
+body{
+  margin:0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 17px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+.wrap{ max-width: 1240px; margin: 0 auto; padding: 0 6vw; }
+
+h1,h2,h3,h4{
+  font-family: 'Unbounded', system-ui, sans-serif;
+  margin: 0;
+  text-wrap: balance;
+  letter-spacing: -0.01em;
+}
+
+.eyebrow{
+  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+}
+.eyebrow::before{
+  content: "";
+  width: 1.6em;
+  height: 1px;
+  background: var(--accent);
+  display: inline-block;
+}
+
+a{ color: inherit; }
+
+/* subtle film-grain overlay, fixed */
+.grain{
+  position: fixed; inset: 0; pointer-events: none; z-index: 999;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ============ NAV ============ */
+header.site{
+  position: fixed; top:0; left:0; right:0; z-index: 200;
+  display:flex; align-items:center; justify-content:flex-end;
+  padding: 1.4rem 6vw;
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--bg) 55%, transparent), transparent);
+  transition: background 0.4s ease, backdrop-filter 0.4s ease;
+}
+header.site.scrolled{
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+nav.links{ display:flex; gap: clamp(1rem, 3vw, 2.4rem); }
+nav.links a{
+  font-family:'IBM Plex Mono', monospace; font-size: 0.74rem; letter-spacing:0.1em; text-transform: uppercase;
+  text-decoration:none; color: var(--ink-dim); position:relative; padding-bottom:4px;
+  transition: color 0.25s ease;
+}
+nav.links a:hover, nav.links a:focus-visible{ color: var(--ink); }
+nav.links a::after{
+  content:""; position:absolute; left:0; right:100%; bottom:0; height:1px; background: var(--accent);
+  transition: right 0.3s ease;
+}
+nav.links a.active::after, nav.links a:hover::after{ right:0; }
+.nav-toggle{ display:none; }
+
+@media (max-width: 720px){
+  nav.links{ display:none; }
+}
+
+/* ============ TABBAR (role switcher) ============ */
+.tabbar{
+  position: sticky; top: 72px; z-index: 150;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.tabbar-inner{ display:flex; align-items:center; gap: clamp(1rem, 4vw, 2.2rem); padding: 1.1rem 0; flex-wrap:wrap; }
+.tabbar .eyebrow{ margin:0; }
+.tabs{ display:flex; gap:0.6rem; flex-wrap:wrap; }
+.tab{
+  font-family:'IBM Plex Mono', monospace; font-size:0.76rem; letter-spacing:0.08em; text-transform:uppercase;
+  color: var(--ink-dim); background: transparent; border: 1px solid var(--line-strong);
+  padding: 0.55rem 1.1rem; border-radius: 30px; cursor:pointer;
+  transition: background .25s ease, color .25s ease, border-color .25s ease;
+}
+.tab:hover{ color: var(--ink); border-color: var(--accent); }
+.tab.active{ background: var(--accent); border-color: var(--accent); color: var(--bg); font-weight:600; }
+
+.panel{ display:none; scroll-margin-top: var(--sticky-offset, 150px); }
+.panel.active{ display:block; }
+@keyframes panelIn{ from{ opacity:0; transform: translateY(8px); } to{ opacity:1; transform:translateY(0); } }
+.panel.active{ animation: panelIn 0.5s ease; }
+@media (prefers-reduced-motion: reduce){ .panel.active{ animation:none; } }
+
+/* ============ CONTACT SHEET (photographer placeholder) ============ */
+.contact-sheet{
+  display:grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 0.7rem;
+  margin: 1.4rem 0 2rem;
+}
+.photo-group{ margin-bottom: 3.2rem; }
+.photo-group:last-of-type{ margin-bottom: 2rem; }
+.neg{
+  aspect-ratio: 3/2; border:1px dashed var(--line-strong); border-radius:3px;
+  display:flex; align-items:flex-end; justify-content:flex-start; padding:0.5rem 0.65rem;
+  background: repeating-linear-gradient(135deg, transparent 0 14px, var(--bg-raised) 14px 15px);
+  font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color: var(--ink-faint); letter-spacing:0.05em;
+}
+
+/* ============ PHOTOGRAPHY SUB-NAV + FULL-BLEED CAROUSEL ============ */
+/* pill switcher between photo sub-sections — lets you jump straight to any
+   one of them full-screen, without scrolling past the others */
+.photo-subnav{
+  display:flex; gap:0.6rem; flex-wrap:wrap;
+  margin: 0 0 2.4rem;
+}
+.photo-subtab{
+  font-family:'IBM Plex Mono', monospace; font-size:0.74rem; letter-spacing:0.07em; text-transform:uppercase;
+  color: var(--ink-dim); background: transparent; border: 1px solid var(--line-strong);
+  padding: 0.55rem 1.05rem; border-radius: 30px; cursor:pointer;
+  transition: background .25s ease, color .25s ease, border-color .25s ease;
+}
+.photo-subtab:hover{ color: var(--ink); border-color: var(--accent); }
+.photo-subtab.active{ background: var(--accent); border-color: var(--accent); color: var(--bg); font-weight:600; }
+
+.photo-sub{ display:none; }
+.photo-sub.active{ display:block; animation: panelIn 0.5s ease; }
+
+/* editorial photo stack: a single centered column of overlapping frames —
+   each keeps its own real aspect ratio, index numbers sit at the left edge,
+   the section name at the right edge, and photos cascade down the page with
+   a slight overlap (like a stack of prints). Hovering a photo lifts it above
+   its neighbors (via :has()) and gently enlarges it; clicking opens the
+   full-screen lightbox — same interaction as before, new arrangement. */
+.photo-stack{
+  position:relative;
+  max-width: 1100px; margin: 0 auto;
+  padding: 1rem 0 2.5rem;
+}
+.ps-row{
+  position:relative; z-index:1;
+  display:grid;
+  grid-template-columns: 1fr minmax(230px, 560px) 1fr;
+  align-items:center;
+  column-gap: clamp(1rem, 4vw, 3rem);
+}
+.ps-row:has(.ps-photo:hover){ z-index: 50; }
+.ps-row + .ps-row{ margin-top: clamp(-6.5rem, -9vw, -2.5rem); }
+
+.ps-label{
+  font-family:'IBM Plex Mono', monospace; font-size:0.76rem; letter-spacing:0.12em; text-transform:uppercase;
+  color: var(--ink-faint); white-space:nowrap;
+}
+.ps-label-left{ justify-self:end; text-align:right; }
+.ps-label-right{ justify-self:start; text-align:left; }
+
+.ps-photo{
+  position:relative; display:block; width:100%;
+  border:none; padding:0; margin:0; cursor:zoom-in;
+  background:#000; overflow:hidden; border-radius:2px;
+  box-shadow: 0 22px 50px -20px rgba(0,0,0,0.55);
+  transition: transform 0.45s cubic-bezier(.2,.8,.2,1), box-shadow 0.45s ease;
+}
+.ps-photo img{
+  display:block; width:100%; height:100%; object-fit:cover;
+  filter: saturate(0.94); transition: filter 0.4s ease;
+}
+.ps-photo:hover, .ps-photo:focus-visible{
+  transform: scale(1.07);
+  box-shadow: 0 36px 76px -22px rgba(0,0,0,0.72);
+}
+.ps-photo:hover img, .ps-photo:focus-visible img{ filter: saturate(1.05); }
+.ps-zoom{
+  position:absolute; inset:0; z-index:1;
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; transition: opacity 0.25s ease;
+  background: rgba(10,6,3,0.16);
+}
+.ps-photo:hover .ps-zoom, .ps-photo:focus-visible .ps-zoom{ opacity:1; }
+.ps-zoom svg{ width:30px; height:30px; color: var(--ink); filter: drop-shadow(0 2px 8px rgba(0,0,0,0.6)); }
+
+@media (max-width: 760px){
+  .ps-row{ grid-template-columns: 2.4rem 1fr; column-gap: 0.8rem; }
+  .ps-label-right{ display:none; }
+  .ps-label-left{ justify-self:start; text-align:left; }
+  .ps-row + .ps-row{ margin-top: clamp(-3rem, -10vw, -1.1rem); }
+}
+
+/* full-screen lightbox — opens any mosaic frame large, arrows step through
+   the same group of photos */
+.lightbox{
+  position:fixed; inset:0; z-index:500;
+  display:none; align-items:center; justify-content:center;
+  background: rgba(15,9,5,0.94);
+}
+.lightbox.active{ display:flex; }
+.lb-img{
+  max-width:92vw; max-height:86vh; object-fit:contain; display:block;
+  border-radius:3px; box-shadow: 0 40px 90px -24px rgba(0,0,0,0.7);
+}
+.lb-close, .lb-arrow{
+  position:absolute; background:none; border:none; color: var(--ink); cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition: opacity 0.2s ease, transform 0.2s ease; opacity:0.72;
+}
+.lb-close:hover, .lb-arrow:hover{ opacity:1; }
+.lb-close{ top: 1.3rem; right: 1.5rem; font-size:1.6rem; width:2.6rem; height:2.6rem; }
+.lb-arrow{ top:50%; transform: translateY(-50%); font-family:'Unbounded', sans-serif; font-size:2.4rem; width: clamp(3rem, 7vw, 4.4rem); height: 5rem; }
+.lb-arrow:hover{ transform: translateY(-50%) scale(1.08); }
+.lb-prev{ left: clamp(0.6rem, 2vw, 2rem); }
+.lb-next{ right: clamp(0.6rem, 2vw, 2rem); }
+.lb-counter{
+  position:absolute; left:50%; bottom:1.4rem; transform:translateX(-50%);
+  font-family:'IBM Plex Mono', monospace; font-size:0.76rem; letter-spacing:0.08em;
+  color: var(--ink-dim); background: rgba(0,0,0,0.45); padding:0.4rem 0.9rem; border-radius:20px;
+}
+@media (max-width: 640px){
+  .lb-arrow{ width:3rem; font-size:1.8rem; }
+  .lb-close{ top:0.8rem; right:0.8rem; }
+}
+
+/* ============ EDITING: vlog preview cards + theatre credit ============ */
+.vlog-grid{
+  display:grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: 1.2rem;
+  margin: 1.6rem 0 2.2rem;
+}
+.vlog-card{
+  display:block; text-decoration:none; color:inherit;
+  border:1px solid var(--line); border-radius:6px; overflow:hidden;
+  background: var(--bg-raised-2);
+  transition: border-color .25s ease, transform .25s ease;
+}
+.vlog-card:hover{ border-color: var(--accent); transform: translateY(-3px); }
+.vlog-thumb{ position:relative; aspect-ratio:16/9; overflow:hidden; }
+.vlog-thumb img{
+  width:100%; height:100%; object-fit:cover; display:block;
+  filter: saturate(0.95);
+  transition: transform 0.6s cubic-bezier(.2,.7,.2,1);
+}
+.vlog-card:hover .vlog-thumb img{ transform: scale(1.06); }
+.vlog-play{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; }
+.vlog-play svg{ width:44px; height:44px; opacity:0.92; filter: drop-shadow(0 6px 16px rgba(0,0,0,0.45)); }
+.vlog-title{
+  font-family:'IBM Plex Mono', monospace; font-size:0.76rem; line-height:1.4;
+  padding: 0.8rem 0.95rem; color: var(--ink-dim);
+}
+
+.play-card{
+  display:block; border:1px solid var(--line); border-radius:6px; padding: 1.6rem;
+  background: var(--bg-raised-2); margin: 1.6rem 0 2.2rem; max-width: 620px;
+}
+.play-card-title{
+  font-family:'Unbounded', sans-serif; font-weight:700; font-size:1.2rem; margin: 0 0 0.7rem;
+}
+.play-card-meta{ font-size:0.92rem; color: var(--ink-dim); line-height:1.65; margin-bottom:1.1rem; }
+.play-card-meta b{ color: var(--ink); font-weight:600; }
+
+/* two silent looping clips from "До поезда осталось", edge-to-edge across
+   the full screen width (same full-bleed technique as .film-trailer-fullbleed
+   and .reel-fullbleed) — as large as the layout allows, side by side */
+.editing-fullbleed{ width:100%; margin: clamp(1.6rem, 4vw, 2.4rem) 0 0; }
+.editing-clip-grid{
+  display:grid; grid-template-columns: 1fr 1fr; gap: 2px;
+}
+.editing-clip{
+  position:relative; overflow:hidden; background:#000;
+}
+.editing-clip video{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; background:#000;
+}
+@media (max-width: 700px){
+  .editing-clip-grid{ grid-template-columns: 1fr; gap: 2px; }
+}
+
+/* ============ EXHIBITION TEASERS ============ */
+/* filled entries reuse the .film / .trailer patterns from Works, full-bleed,
+   so an exhibition project reads with the same weight as a short film —
+   not a small icon grid. */
+.exhibit-head{ margin-bottom: 2.2rem; }
+/* the section label stays quiet — a plain sans line, not a second headline —
+   so it doesn't compete with the actual project title (film-title) below it */
+.exhibit-head .section-title{
+  font-family:'Manrope', sans-serif;
+  font-weight:500;
+  font-size: clamp(1.15rem, 2vw, 1.45rem);
+  color: var(--ink-dim);
+  letter-spacing:0;
+  margin-top: 0.5rem;
+}
+.exhibit-project{ margin-bottom: 5rem; }
+.exhibit-project:last-of-type{ margin-bottom: 2rem; }
+.exhibit-project .film-content{ max-width: 640px; margin-bottom: 2.2rem; }
+.exhibit-trailer{ margin: 0 0 2.4rem; }
+
+/* remaining not-yet-filled slots stay a small "coming soon" row beneath */
+.teaser-grid{
+  display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 1rem;
+  margin: 0 0 1rem;
+}
+.teaser-slot{
+  aspect-ratio:16/9; border:1px dashed var(--line-strong); border-radius:6px;
+  display:flex; flex-direction:column; justify-content:space-between; padding:1rem 1.1rem;
+  background: repeating-linear-gradient(135deg, transparent 0 18px, var(--bg-raised) 18px 19px);
+}
+.teaser-slot .teaser-index{
+  font-family:'IBM Plex Mono', monospace; font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase;
+  color: var(--accent);
+}
+.teaser-slot .teaser-label{
+  font-family:'IBM Plex Mono', monospace; font-size:0.78rem; color: var(--ink-faint);
+}
+
+/* ============ HERO ============ */
+.hero{
+  position: relative;
+  min-height: 100svh;
+  display:flex; flex-direction:column; justify-content:space-between; align-items:flex-start;
+  padding: 7rem 6vw 5rem;
+  overflow:hidden;
+  isolation:isolate;
+}
+.hero-bg{
+  position:absolute; inset:0; z-index:-2; overflow:hidden;
+  background-size: cover; background-position: center 45%;
+  animation: kenburns 26s ease-in-out infinite alternate;
+}
+.hero-bg-video{
+  position:absolute; inset:0; z-index:-2;
+  width:100%; height:100%;
+  object-fit: cover; object-position: center 45%;
+  background: #000;
+}
+.hero-bg::after{
+  content:""; position:absolute; inset:0;
+  background: linear-gradient(to bottom,
+    color-mix(in srgb, var(--bg) 62%, transparent) 0%,
+    transparent 24%,
+    transparent 38%,
+    color-mix(in srgb, var(--bg) 88%, transparent) 100%);
+}
+@keyframes kenburns{ from{ transform: scale(1.0); } to{ transform: scale(1.08); } }
+@media (max-width: 768px){
+  .hero-bg{ background-position: center 42%; }
+  .hero-bg-video{ object-position: center 42%; }
+}
+@media (prefers-reduced-motion: reduce){
+  .hero-bg-video{ animation-play-state: paused; }
+}
+.hero-top{ max-width: min(560px, 90vw); }
+.hero-bottom{ max-width: min(480px, 90vw); }
+.hero-name{
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(2.9rem, 8.4vw, 7.2rem);
+  font-weight: 900;
+  letter-spacing: 0.005em;
+  line-height: 1.0;
+  color: var(--ink);
+  text-shadow: 0 4px 28px var(--shadow), 0 1px 3px var(--shadow);
+}
+.hero-role{
+  margin-top: 1.3rem;
+  font-family:'IBM Plex Mono', monospace;
+  font-size: clamp(0.82rem, 1.4vw, 1rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-strong);
+  text-shadow: 0 2px 16px var(--shadow), 0 1px 3px var(--shadow), 0 0 2px var(--shadow);
+}
+.hero-credential{
+  margin-top: 1.1rem;
+  max-width: 60ch;
+  color: var(--ink-dim);
+  font-size: 0.95rem;
+  text-shadow: 0 2px 16px var(--shadow), 0 1px 3px var(--shadow), 0 0 2px var(--shadow);
+}
+.hero-scroll{
+  position:absolute; right: 6vw; bottom: 2.6rem;
+  writing-mode: vertical-rl;
+  font-family:'IBM Plex Mono', monospace; font-size: 0.7rem; letter-spacing:0.2em; text-transform:uppercase;
+  color: var(--ink-dim); display:flex; align-items:center; gap:0.8rem;
+}
+.hero-scroll .line{ width:1px; height: 46px; background: var(--line-strong); position:relative; overflow:hidden; }
+.hero-scroll .line::after{
+  content:""; position:absolute; top:-100%; left:0; width:100%; height:100%; background: var(--accent);
+  animation: dropline 2.4s ease-in-out infinite;
+}
+@keyframes dropline{ 0%{ top:-100%; } 60%,100%{ top:100%; } }
+
+/* ============ SECTIONS shared ============ */
+section{ position: relative; padding: 7.5rem 0; }
+.section-head{ margin-bottom: 3.2rem; }
+.section-title{
+  font-size: clamp(2.1rem, 5vw, 3.6rem);
+  font-weight: 700;
+  margin-top: 0.6rem;
+}
+/* content is visible at rest; is-visible only adds a quiet settle, never hides content */
+.reveal{ transition: transform 0.7s ease; }
+.reveal:not(.is-visible){ transform: translateY(10px); }
+.reveal.is-visible{ transform: translateY(0); }
+
+/* ============ ABOUT ============ */
+#about{ background: var(--bg-raised); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+.about-grid{
+  display:grid; grid-template-columns: minmax(0,0.85fr) minmax(0,1.15fr); gap: clamp(2rem, 6vw, 5rem); align-items:start;
+}
+.about-photo{
+  position:relative; border-radius: 6px; overflow:hidden;
+  box-shadow: 0 30px 60px -20px var(--shadow);
+}
+.about-photo img{ display:block; width:100%; height:100%; object-fit:cover; filter: saturate(0.94); }
+.about-photo::after{
+  content:""; position:absolute; inset:0; border:1px solid var(--line-strong); border-radius:6px; pointer-events:none;
+}
+.about-copy p{ color: var(--ink-dim); font-size: 1.08rem; max-width: 58ch; }
+.about-copy p:first-of-type{ color: var(--ink); font-size: 1.22rem; font-weight:500; }
+.fact-slate{
+  margin-top: 2.2rem; padding: 1.4rem 1.6rem;
+  background: var(--bg-raised-2); border: 1px solid var(--line); border-radius: 4px;
+  font-family:'IBM Plex Mono', monospace; font-size: 0.82rem; color: var(--ink-dim); letter-spacing: 0.02em;
+  display:grid; gap:0.55rem;
+}
+.fact-slate b{ color: var(--accent); font-weight:600; }
+
+@media (max-width: 860px){
+  .about-grid{ grid-template-columns: 1fr; }
+  .about-photo{ max-width: 340px; }
+}
+
+/* ============ WORKS ============ */
+/* alternating media / text layout, inspired by a reference site Kate liked —
+   single flat background (no per-film backdrop image), unlike the reference. */
+#works{ padding-top: 7.5rem; }
+.film{
+  display:grid; grid-template-columns: 1.65fr 1fr;
+  gap: clamp(2.5rem, 6vw, 5rem);
+  align-items:center;
+  min-height: 82vh;
+  padding: 6rem 0;
+  border-top: 1px solid var(--line);
+}
+.film:first-of-type{ padding-top:0; border-top:none; }
+.film--alt{ grid-template-columns: 1fr 1.65fr; }
+
+.film-media{
+  position:relative; border-radius:6px; overflow:hidden; border:1px solid var(--line);
+}
+.film-media--poster{
+  display:flex; align-items:center; justify-content:center;
+  aspect-ratio: 2/3;
+  background: var(--bg-raised-2);
+  padding: clamp(1rem, 2.4vw, 1.8rem);
+}
+.film-media--poster img{
+  width:auto; height:100%; max-width:100%;
+  object-fit:contain; display:block;
+  box-shadow: 0 20px 44px -16px var(--shadow);
+  border-radius:2px;
+}
+.film-media--strip{ border:none; }
+.film-media--trailer{ border:none; }
+.film-media--trailer .trailer{ max-width:none; margin-bottom:0; }
+
+.film-below{
+  grid-column: 1 / -1;
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+.filmstrip.filmstrip--large{
+  display:flex;
+  gap: 0.9rem;
+}
+.filmstrip.filmstrip--large figure{ flex: 0 0 300px; }
+.filmstrip.filmstrip--large .frame{ aspect-ratio: 3/2; }
+@media (min-width: 861px){
+  .filmstrip.filmstrip--large figure{ flex-basis: 440px; }
+  .filmstrip.filmstrip--large .frame{ aspect-ratio: 16/9; }
+}
+
+.film-trailer-fullbleed{ width:100%; margin: clamp(2rem, 4vw, 3rem) 0; }
+.trailer.trailer--full{
+  max-width: none; width:100%; margin-bottom:0; border-radius:0;
+  border-left:none; border-right:none; box-shadow:none;
+}
+
+.film-content{ max-width: 480px; }
+
+.film-index{
+  display:block; font-family:'IBM Plex Mono', monospace; font-size:0.82rem;
+  color: var(--accent); letter-spacing:0.1em; margin-bottom:0.9rem;
+}
+.film-title{
+  font-family:'Unbounded', sans-serif; font-weight:800; text-transform:uppercase;
+  font-size: clamp(2rem, 3.6vw, 3.2rem); line-height:1.05; letter-spacing:-0.01em;
+  margin: 0 0 1.4rem;
+}
+
+.tag-row{ display:flex; flex-wrap:wrap; gap:0.6rem; margin-bottom: 1.4rem; }
+.tag-pill{
+  font-family:'IBM Plex Mono', monospace; font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase;
+  color: var(--ink-dim); border:1px solid var(--line-strong); padding:0.4rem 0.85rem; border-radius:20px;
+}
+
+.film-role{ font-size: 0.92rem; color: var(--ink-dim); margin-bottom: 1.8rem; }
+.film-role-label{
+  font-family:'IBM Plex Mono', monospace; font-size:0.66rem; text-transform:uppercase; letter-spacing:0.1em;
+  color: var(--accent); margin-right:0.7em;
+}
+
+.logline{
+  font-family:'Unbounded', sans-serif; font-weight:400;
+  font-size: clamp(1rem, 1.6vw, 1.2rem); line-height:1.55;
+  color: var(--ink); max-width: 48ch;
+  padding-left: 1.1rem; border-left: 2px solid var(--accent);
+  margin: 0 0 1.8rem;
+}
+
+.film-actions{ display:flex; flex-wrap:wrap; align-items:center; gap:0.9rem; }
+.film-actions .badge-guard{ margin-bottom:0; }
+.kinopoisk-link{
+  display:inline-flex; align-items:center; gap:0.5em;
+  font-family:'IBM Plex Mono', monospace; font-size:0.72rem; letter-spacing:0.06em; text-transform:uppercase;
+  text-decoration:none; color: var(--ink-dim); border:1px solid var(--line-strong); border-radius:20px;
+  padding: 0.5rem 0.95rem;
+  transition: border-color .25s ease, color .25s ease, background .25s ease;
+}
+.kinopoisk-link:hover{ border-color: var(--accent); color: var(--accent-strong); background: var(--bg-raised); }
+
+.filmstrip{
+  display:grid; grid-auto-flow: column; grid-auto-columns: minmax(160px, 1fr);
+  gap: 0.5rem; overflow-x: auto;
+  scroll-snap-type: x proximity;
+}
+.filmstrip::-webkit-scrollbar{ height: 6px; }
+.filmstrip::-webkit-scrollbar-thumb{ background: var(--line-strong); border-radius:3px; }
+.filmstrip figure{ margin:0; scroll-snap-align:start; }
+.filmstrip .frame{
+  aspect-ratio: 3/2; overflow:hidden; position:relative; border:1px solid var(--line); border-radius:4px;
+}
+.filmstrip img{
+  width:100%; height:100%; object-fit:cover; display:block;
+  transition: transform 0.7s cubic-bezier(.2,.7,.2,1), filter 0.5s ease;
+  filter: saturate(0.95);
+}
+.filmstrip .frame:hover img{ transform: scale(1.08); filter: saturate(1.05); }
+@media (min-width: 861px){
+  .film-media--strip .filmstrip{
+    grid-auto-flow: row; grid-template-columns: repeat(2, 1fr); overflow:visible;
+  }
+  .film-media--strip .frame{ aspect-ratio: 4/3; }
+}
+
+.credits{
+  grid-column: 1 / -1;
+  display:grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 1.4rem 2.4rem;
+  margin-top: 2.8rem; padding-top: 1.8rem; border-top: 1px solid var(--line);
+}
+.credits .role{ font-family:'IBM Plex Mono', monospace; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.1em; color: var(--accent); margin-bottom:0.3rem; }
+.credits .names{ color: var(--ink-dim); font-size:0.95rem; }
+.poster-mini img{
+  width:100%; max-width:150px; border-radius:4px; display:block;
+  box-shadow: 0 16px 34px -14px var(--shadow); border:1px solid var(--line);
+}
+
+@media (max-width: 860px){
+  .film, .film--alt{ grid-template-columns: 1fr; gap: 2rem; min-height:0; }
+  .film-media{ order:1; }
+  .film-content{ order:2; max-width:none; }
+  .film-below{ order:3; }
+  .credits{ order:4; }
+  .film-media--poster{ aspect-ratio: 3/4; }
+}
+
+/* ============ SCREENINGS ============ */
+#screenings{ background: var(--bg-raised); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+.laurels{ display:grid; gap: 1.1rem; margin-top: 2.2rem; }
+.laurel-row{
+  display:flex; align-items:center; gap:1.1rem;
+  padding: 1.1rem 0; border-bottom: 1px solid var(--line);
+}
+.laurel-row:last-child{ border-bottom:none; }
+.laurel-icon{ width:34px; height:34px; color: var(--accent); flex:none; }
+.laurel-text b{ display:block; font-size:1.02rem; color:var(--ink); font-weight:600; }
+.laurel-text span{ font-family:'IBM Plex Mono', monospace; font-size:0.76rem; color: var(--ink-faint); }
+.logo-strip{ display:flex; flex-wrap:wrap; gap: 1.4rem; align-items:center; margin-top: 2.6rem; }
+.logo-strip img{
+  height: 50px; width:auto; border-radius:5px; border:1px solid var(--line);
+  filter: saturate(0.85); opacity:0.88; transition:opacity .3s ease, transform .3s ease;
+}
+.logo-strip img:hover{ opacity:1; transform: translateY(-2px); }
+
+/* ============ OTHER WORK placeholder ============ */
+#other{ }
+.placeholder-card{
+  border: 1px dashed var(--line-strong); border-radius: 8px;
+  padding: clamp(2.2rem, 6vw, 4rem);
+  display:flex; flex-direction:column; align-items:flex-start; gap:1rem;
+  background: repeating-linear-gradient(135deg, transparent 0 18px, var(--bg-raised) 18px 19px);
+}
+.placeholder-card b{ font-family:'Unbounded', sans-serif; font-size:1.3rem; }
+.placeholder-card p{ color: var(--ink-dim); max-width:52ch; margin:0; }
+.tag-soon{
+  font-family:'IBM Plex Mono', monospace; font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase;
+  color: var(--wine-strong); border:1px solid currentColor; padding:0.3rem 0.6rem; border-radius:20px;
+}
+
+.badge-guard{
+  display:inline-flex; align-items:center; gap:0.5em;
+  font-family:'IBM Plex Mono', monospace; font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase;
+  color: var(--accent); border:1px solid currentColor; padding:0.4rem 0.8rem; border-radius:20px;
+  margin-bottom: 2.2rem;
+}
+
+/* ============ TRAILER ============ */
+.trailer{
+  position:relative; max-width: 640px; aspect-ratio: 16/9;
+  border-radius: 6px; overflow:hidden; margin-bottom: 2.8rem;
+  background:#000; border:1px solid var(--line);
+  box-shadow: 0 24px 50px -18px var(--shadow);
+}
+.trailer-play{
+  position:absolute; inset:0; z-index:2; width:100%; height:100%;
+  border:none; padding:0; cursor:pointer; text-decoration:none;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.9rem;
+}
+.trailer-poster{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  filter: saturate(0.95) brightness(0.72);
+  transition: filter 0.3s ease, transform 6s ease;
+}
+.trailer-play:hover .trailer-poster{ filter: saturate(1) brightness(0.6); transform: scale(1.04); }
+.trailer-play-icon{
+  position:relative; z-index:1;
+  width: 4.2rem; height:4.2rem; border-radius:50%;
+  background: var(--accent); color: var(--bg);
+  display:flex; align-items:center; justify-content:center;
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+.trailer-play:hover .trailer-play-icon{ transform: scale(1.08); background: var(--accent-strong); }
+.trailer-play-label{
+  position:relative; z-index:1;
+  font-family:'IBM Plex Mono', monospace; font-size:0.76rem; letter-spacing:0.12em; text-transform:uppercase;
+  color: var(--ink); text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+@media (max-width: 640px){
+  .trailer{ max-width: 100%; }
+}
+
+/* ============ REELS ============ */
+/* each embedded clip keeps its own real aspect ratio (set inline per item) —
+   no forced square/vertical crop, same principle as the photo carousel */
+.reel-grid{
+  display:grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.4rem; margin: 1.8rem 0 2.2rem;
+}
+@media (max-width: 760px){
+  .reel-grid{ grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px){
+  .reel-grid{ grid-template-columns: 1fr; }
+}
+/* Beautiful Things breaks out of .wrap and runs the full width of the
+   screen, like .film-trailer-fullbleed for the Matveevka teaser — must be
+   a direct child of <section>, not nested in a max-width container */
+.reel-fullbleed{ width:100%; margin: clamp(1.3rem, 3vw, 2rem) 0 clamp(2.6rem, 5vw, 3.6rem); }
+.reel-fullbleed .reel-frame{
+  border-radius:0; border-left:none; border-right:none; box-shadow:none;
+}
+.reel-frame{
+  position:relative; width:100%; overflow:hidden; border-radius:6px;
+  background:#000; border:1px solid var(--line);
+  box-shadow: 0 24px 50px -18px var(--shadow);
+}
+.reel-frame video{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; background:#000;
+}
+.reel-link{
+  position:absolute; inset:0; width:100%; height:100%;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.9rem;
+  text-decoration:none; color: var(--ink);
+  background: linear-gradient(160deg, var(--bg-raised-2), #000);
+}
+.reel-link-icon{
+  position:relative; z-index:1;
+  width: 4.2rem; height:4.2rem; border-radius:50%;
+  background: var(--accent); color: var(--bg);
+  display:flex; align-items:center; justify-content:center;
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+.reel-link:hover .reel-link-icon{ transform: scale(1.08); background: var(--accent-strong); }
+.reel-link-label{
+  position:relative; z-index:1;
+  font-family:'IBM Plex Mono', monospace; font-size:0.74rem; letter-spacing:0.1em; text-transform:uppercase;
+  color: var(--ink-dim);
+}
+.reel-poster{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  filter: saturate(0.95) brightness(0.72);
+  transition: filter 0.3s ease, transform 6s ease;
+}
+.reel-link:hover .reel-poster{ filter: saturate(1) brightness(0.6); transform: scale(1.04); }
+
+/* the solo Kinescope card sits apart from the vertical reel grid, not
+   stretched by its column sizing — a fixed-width card like the trailer teasers */
+.reel-solo{
+  max-width: 420px; margin: 0;
+}
+.reel-solo .reel-frame{ width:100%; }
+@media (max-width: 640px){
+  .reel-solo{ max-width:100%; }
+}
+
+/* two clearly separate numbered cases — same numbering convention as
+   the Works section (.film-index) — with a rule between them so they
+   never read as one jumbled block */
+.reel-case{
+  padding-top: 2.8rem; margin-top: 2.8rem;
+  border-top: 1px solid var(--line);
+}
+.reel-case:first-of-type{ padding-top:0; margin-top:0; border-top:none; }
+.reel-case-title{
+  font-family:'Unbounded', sans-serif; font-weight:700;
+  font-size: clamp(1.25rem, 2.2vw, 1.6rem);
+  margin: 0 0 1.5rem;
+}
+.reel-footnote{
+  margin-top: 1.7rem; font-size:0.86rem; color: var(--ink-faint); font-style:italic;
+}
+.insta-note-mark{
+  font-size: 0.7em; vertical-align: text-top; margin-left: 0.1em; line-height:0;
+}
+
+/* circular avatar credit, echoes an Instagram profile row — a distinct
+   bordered card (not just a top rule) so it reads as its own block,
+   clearly apart from the reel grid above it */
+.insta-credit{
+  display:flex; align-items:center; gap: 1.2rem;
+  margin: 0 0 2rem; padding: 1.5rem 1.7rem;
+  border: 1px solid var(--line); border-radius: 8px; background: var(--bg-raised-2);
+  max-width: 620px;
+}
+.insta-credit .eyebrow{ margin-bottom: 0.6rem; }
+.insta-avatar{
+  flex:none; width: 62px; height:62px; border-radius:50%; padding: 3px;
+  background: conic-gradient(from 200deg, var(--wine-strong), var(--accent), var(--accent-strong), var(--wine-strong));
+}
+.insta-avatar img{
+  width:100%; height:100%; object-fit:cover; border-radius:50%; display:block;
+  border: 2px solid var(--bg-raised);
+}
+.insta-handle{
+  display:inline-block; font-family:'Unbounded', sans-serif; font-weight:600; font-size:1.02rem;
+  text-decoration:none; color: var(--ink); margin-bottom: 0.4rem;
+  transition: color 0.25s ease;
+}
+.insta-handle:hover{ color: var(--accent-strong); }
+.insta-copy p{ margin:0; color: var(--ink-dim); font-size:0.9rem; max-width:46ch; }
+
+/* ============ CONTACT ============ */
+#contact{
+  padding-top: 6rem; padding-bottom: 8rem; text-align:center;
+}
+.contact-line{
+  font-size: clamp(1.8rem, 5.6vw, 4rem); font-weight:700; max-width: 18ch; margin: 0 auto;
+}
+.contact-line em{ font-style:normal; color: var(--accent); }
+.contact-links{ margin-top: 2.4rem; display:flex; flex-wrap:wrap; gap:1rem 1.6rem; justify-content:center; }
+.contact-links a{
+  font-family:'IBM Plex Mono', monospace; font-size:0.86rem; letter-spacing:0.04em;
+  text-decoration:none; color: var(--ink); border:1px solid var(--line-strong); border-radius:30px;
+  padding: 0.7rem 1.4rem; transition: border-color .25s ease, color .25s ease, background .25s ease;
+}
+.contact-links a:hover{ border-color: var(--accent); color: var(--accent-strong); background: var(--bg-raised); }
+.contact-note{ margin-top:1.6rem; font-size:0.86rem; color: var(--ink-faint); font-style:italic; }
+
+footer{
+  border-top:1px solid var(--line); padding: 2.2rem 0; text-align:center;
+  font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color: var(--ink-faint); letter-spacing:0.04em;
+}
+
+::selection{ background: var(--accent); color: var(--bg); }
+
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<header class="site" id="siteHeader">
+  <nav class="links">
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<section class="hero" id="top">
+  <div class="hero-bg">
+    <video class="hero-bg-video" autoplay muted loop playsinline poster="web_images/hero_kate.jpg">
+      <source src="web_images/hero_bg.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero-top reveal is-visible">
+    <h1 class="hero-name">КАТЯ<br>БОРИСОВА</h1>
+  </div>
+  <div class="hero-bottom reveal is-visible">
+    <div class="hero-role" id="js-hero-role">автор идеи · сценарист · режиссер-постановщик · режиссер монтажа</div>
+    <p class="hero-credential" id="js-hero-credential">Разработаю уникальную концепцию и воплощу ее в жизнь</p>
+  </div>
+  <div class="hero-scroll"><span class="line"></span>SCROLL</div>
+</section>
+
+<div class="tabbar">
+  <div class="wrap tabbar-inner">
+    <div class="eyebrow">Sections</div>
+    <div class="tabs" role="tablist">
+      <button class="tab active" type="button" data-tab="films" role="tab" aria-selected="true">Films</button>
+      <button class="tab" type="button" data-tab="photography" role="tab" aria-selected="false">Photography</button>
+      <button class="tab" type="button" data-tab="teasers" role="tab" aria-selected="false">Exhibition Teasers</button>
+      <button class="tab" type="button" data-tab="editing" role="tab" aria-selected="false">Editing</button>
+      <button class="tab" type="button" data-tab="reels" role="tab" aria-selected="false">Reels</button>
+    </div>
+  </div>
+</div>
+
+<div class="panel active" id="panel-films" role="tabpanel">
+
+<section id="about">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">О себе</div>
+    </div>
+    <div class="about-grid">
+      <div class="about-photo reveal"><img src="web_images/about_portrait.jpg" alt="Катя Борисова"></div>
+      <div class="about-copy reveal">
+        <p>Привет! Меня зовут Катя, я родилась в Новосибирске и в 2021 году переехала в Москву, поступив в Школу Дизайна НИУ ВШЭ. В 2026 году закончила режиссерскую мастерскую Ивана И. Твердовского на профиле «Экранные искусства».</p>
+        <p>Я люблю придумывать, как визуализировать различные чувства и задумки, а также реализовывать их, работая как в команде, так и самостоятельно — в зависимости от объема задачи!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="works">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Работы</div>
+    </div>
+
+    <!-- FILM 1 -->
+    <article class="film reveal">
+      <div class="film-media film-media--poster">
+        <img src="web_images/poster_papa.jpg" alt="Постер «А вы не видели моего папу?»">
+      </div>
+      <div class="film-content">
+        <span class="film-index">01</span>
+        <h3 class="film-title">«А вы не видели моего папу?»</h3>
+        <div class="tag-row">
+          <span class="tag-pill">Игровой фильм</span>
+          <span class="tag-pill">2026</span>
+          <span class="tag-pill">22 минуты</span>
+          <span class="tag-pill">драма, магический реализм</span>
+        </div>
+        <div class="film-role"><span class="film-role-label">Роль</span>автор идеи, режиссер, продюсер, режиссер монтажа</div>
+        <p class="logline">10-летняя Тата верит в волшебство: она переписывается с папой через тайный портал — цветочный горшок в гостиной. Когда папа уезжает в командировку, а записки перестают доходить, мама начинает вести себя странно и в итоге сообщает дочери, что папа умер. Тата не верит и решает выяснить правду самостоятельно.</p>
+        <div class="film-actions">
+          <span class="badge-guard">премьера готовится · кадры пока скрыты</span>
+          <a class="kinopoisk-link" href="https://www.kinopoisk.ru/film/12154196/?socialAlias=NDE3MjU0NjU%3D" target="_blank" rel="noopener">Кинопоиск ↗</a>
+        </div>
+      </div>
+      <div class="credits">
+        <div><div class="role">В ролях</div><div class="names">Елизавета Руфина, Иван Федотов, Анна Кармакова</div></div>
+        <div><div class="role">Оператор-постановщик</div><div class="names">Григорий Розанов</div></div>
+        <div><div class="role">Художник-постановщик</div><div class="names">Татьяна Зарубина</div></div>
+        <div><div class="role">Продюсеры</div><div class="names">Арина Якушева, Сергей Гордейчик</div></div>
+        <div><div class="role">Звукорежиссер</div><div class="names">Михаил Лямин</div></div>
+        <div><div class="role">Цветокоррекция</div><div class="names">Дмитрий Никитин</div></div>
+      </div>
+    </article>
+
+    <!-- FILM 2 -->
+    <article class="film film--alt reveal">
+      <div class="film-content">
+        <span class="film-index">02</span>
+        <h3 class="film-title">«Алло, люблю»</h3>
+        <div class="tag-row">
+          <span class="tag-pill">Документальный фильм</span>
+          <span class="tag-pill">2025</span>
+          <span class="tag-pill">15 минут</span>
+          <span class="tag-pill">документальный</span>
+        </div>
+        <div class="film-role"><span class="film-role-label">Роль</span>автор идеи, режиссер, продюсер, оператор, режиссер монтажа</div>
+        <p class="logline">36-летняя Катя владеет небольшим швейным производством. Уже полгода она живет в разлуке с любимым мужчиной Сережей — он уехал по контракту. Телефонные звонки становятся главной частью ее дня. Когда Сережа сообщает, что скоро будет в отпуске, в Кате просыпается надежда на скорую встречу.</p>
+        <div class="film-actions">
+          <a class="kinopoisk-link" href="https://www.kinopoisk.ru/film/7993216/?socialAlias=NDE3MjU0NjU%3D" target="_blank" rel="noopener">Кинопоиск ↗</a>
+        </div>
+      </div>
+      <div class="film-media film-media--poster">
+        <img src="web_images/poster_allo.jpg" alt="Постер «Алло, люблю»">
+      </div>
+      <div class="film-below">
+        <div class="filmstrip filmstrip--large">
+          <figure><div class="frame"><img src="web_images/allo_1_workshop.jpg" alt="Кадр из фильма «Алло, люблю»"></div></figure>
+          <figure><div class="frame"><img src="web_images/allo_2_phone.jpg" alt="Кадр из фильма «Алло, люблю»"></div></figure>
+          <figure><div class="frame"><img src="web_images/allo_4_hallway.jpg" alt="Кадр из фильма «Алло, люблю»"></div></figure>
+          <figure><div class="frame"><img src="web_images/allo_3_texting.jpg" alt="Кадр из фильма «Алло, люблю»"></div></figure>
+        </div>
+      </div>
+      <div class="credits">
+        <div><div class="role">Режиссер, оператор, продюсер</div><div class="names">Катя Борисова</div></div>
+        <div><div class="role">Звукорежиссер</div><div class="names">Даниил Прасолов</div></div>
+        <div><div class="role">Цветокоррекция</div><div class="names">Ия Раева</div></div>
+        <div><div class="role">Мастерская</div><div class="names">Ивана И. Твердовского, HSE Art and Design School</div></div>
+      </div>
+    </article>
+
+    <!-- FILM 3 -->
+    <article class="film reveal">
+      <div class="film-media film-media--poster">
+        <img src="web_images/poster_matveevka.jpg" alt="Постер «Остановка Матвеевка»">
+      </div>
+      <div class="film-content">
+        <span class="film-index">03</span>
+        <h3 class="film-title">«Остановка Матвеевка»</h3>
+        <div class="tag-row">
+          <span class="tag-pill">Игровой фильм</span>
+          <span class="tag-pill">2026</span>
+          <span class="tag-pill">13 минут</span>
+          <span class="tag-pill">драма, триллер</span>
+        </div>
+        <div class="film-role"><span class="film-role-label">Роль</span>автор идеи, режиссер, продюсер, режиссер монтажа</div>
+        <p class="logline">12-летняя Соня впервые едет домой одна. Опоздав на маршрутку, она соглашается на предложение незнакомого водителя подвезти ее до нужной остановки. Однако чем дольше они едут, тем сильнее девочка начинает сомневаться в правильности принятого решения.</p>
+        <div class="film-actions">
+          <span class="badge-guard">премьера готовится · кадры пока скрыты</span>
+          <a class="kinopoisk-link" href="https://www.kinopoisk.ru/film/11658993/?socialAlias=NDE3MjU0NjU%3D" target="_blank" rel="noopener">Кинопоиск ↗</a>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="film-trailer-fullbleed reveal">
+    <div class="trailer trailer--full" id="trailerMatv">
+      <a class="trailer-play" href="https://kinescope.io/rCME3xrHjHpq7jRBd7Mjvg" target="_blank" rel="noopener" aria-label="Смотреть тизер «Остановка Матвеевка» на Kinescope">
+        <img class="trailer-poster" src="web_images/teaser_matveevka_poster.jpg" alt="">
+        <span class="trailer-play-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </span>
+        <span class="trailer-play-label">Смотреть тизер на Kinescope ↗</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="credits">
+      <div><div class="role">В ролях</div><div class="names">Агния Воробьева, Артем Кретов, Светлана Агаева</div></div>
+      <div><div class="role">Оператор-постановщик</div><div class="names">Григорий Розанов</div></div>
+      <div><div class="role">Художник-постановщик</div><div class="names">Дарья Фролова</div></div>
+      <div><div class="role">Продюсер</div><div class="names">Светлана Муравьева</div></div>
+      <div><div class="role">Звукорежиссер</div><div class="names">Рустам Медов</div></div>
+      <div><div class="role">Цветокоррекция</div><div class="names">Матвей Бунаев</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="screenings">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Показы</div>
+      <h2 class="section-title">Фильмы отбирали и показывали</h2>
+    </div>
+    <svg width="0" height="0" style="position:absolute">
+      <symbol id="laurel" viewBox="0 0 64 64">
+        <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+          <g>
+            <ellipse cx="14" cy="30" rx="4.6" ry="2.2" transform="rotate(-20 14 30)"/>
+            <ellipse cx="12" cy="22" rx="4.6" ry="2.2" transform="rotate(-38 12 22)"/>
+            <ellipse cx="14" cy="14" rx="4.6" ry="2.2" transform="rotate(-56 14 14)"/>
+            <ellipse cx="20" cy="8"  rx="4.6" ry="2.2" transform="rotate(-74 20 8)"/>
+            <ellipse cx="18" cy="38" rx="4.6" ry="2.2" transform="rotate(-2 18 38)"/>
+            <ellipse cx="24" cy="45" rx="4.6" ry="2.2" transform="rotate(14 24 45)"/>
+            <path d="M14 30 Q10 20 20 8"/>
+          </g>
+          <g>
+            <ellipse cx="50" cy="30" rx="4.6" ry="2.2" transform="rotate(20 50 30)"/>
+            <ellipse cx="52" cy="22" rx="4.6" ry="2.2" transform="rotate(38 52 22)"/>
+            <ellipse cx="50" cy="14" rx="4.6" ry="2.2" transform="rotate(56 50 14)"/>
+            <ellipse cx="44" cy="8"  rx="4.6" ry="2.2" transform="rotate(74 44 8)"/>
+            <ellipse cx="46" cy="38" rx="4.6" ry="2.2" transform="rotate(2 46 38)"/>
+            <ellipse cx="40" cy="45" rx="4.6" ry="2.2" transform="rotate(-14 40 45)"/>
+            <path d="M50 30 Q54 20 44 8"/>
+          </g>
+        </g>
+      </symbol>
+    </svg>
+    <div class="laurels">
+      <div class="laurel-row reveal">
+        <svg class="laurel-icon"><use href="#laurel"></use></svg>
+        <div class="laurel-text"><b>47-й Московский международный кинофестиваль</b><span>программа «Новые русские»</span></div>
+      </div>
+      <div class="laurel-row reveal">
+        <svg class="laurel-icon"><use href="#laurel"></use></svg>
+        <div class="laurel-text"><b>Кинофестиваль «Зеркало»</b><span>международный фестиваль кино, музыки и архитектуры «Зеркало. Философия Тарковского» · 2025</span></div>
+      </div>
+      <div class="laurel-row reveal">
+        <svg class="laurel-icon"><use href="#laurel"></use></svg>
+        <div class="laurel-text"><b>Московская международная неделя кино</b><span>2025</span></div>
+      </div>
+      <div class="laurel-row reveal">
+        <svg class="laurel-icon"><use href="#laurel"></use></svg>
+        <div class="laurel-text"><b>Кинофестиваль «Вертикаль»</b><span>показ в Горно-Алтайске, «Смотр киношкол» · 2025</span></div>
+      </div>
+    </div>
+    <div class="logo-strip reveal">
+      <img src="web_images/logo_mmkf.jpg" alt="Московский международный кинофестиваль">
+      <img src="web_images/logo_zerkalo.png" alt="Зеркало">
+      <img src="web_images/logo_vertikal.jpg" alt="Вертикаль">
+    </div>
+  </div>
+</section>
+
+</div><!-- /panel-films -->
+
+<div class="panel" id="panel-photography" role="tabpanel">
+<section id="photography">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Фотографии</div>
+      <h2 class="section-title">Фотопроекты — от репортажа до предметной съемки</h2>
+    </div>
+
+    <div class="photo-subnav reveal" role="tablist" aria-label="Разделы фотографии">
+      <button class="photo-subtab active" type="button" data-subtab="reportage" role="tab" aria-selected="true">Путешествия</button>
+      <button class="photo-subtab" type="button" data-subtab="individual" role="tab" aria-selected="false">Индивидуальные съемки</button>
+      <button class="photo-subtab" type="button" data-subtab="events" role="tab" aria-selected="false">Мероприятия</button>
+      <button class="photo-subtab" type="button" data-subtab="objects" role="tab" aria-selected="false">Предметная съемка</button>
+    </div>
+  </div>
+
+  <!-- ПУТЕШЕСТВИЯ — editorial photo stack, реальные кадры из путешествий Кати (первый подраздел по умолчанию) -->
+  <div class="photo-sub active" data-sub="reportage" id="photo-sub-reportage" role="tabpanel">
+    <div class="wrap">
+      <div class="photo-stack reveal" data-photostack>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(01)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 950/629;" aria-label="Открыть фото 1 из 45">
+          <img src="web_images/reportage/reportage_01.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(02)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 950/630;" aria-label="Открыть фото 2 из 45">
+          <img src="web_images/reportage/reportage_02.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(03)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 950/630;" aria-label="Открыть фото 3 из 45">
+          <img src="web_images/reportage/reportage_03.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(04)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 950/629;" aria-label="Открыть фото 4 из 45">
+          <img src="web_images/reportage/reportage_04.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(05)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 950/629;" aria-label="Открыть фото 5 из 45">
+          <img src="web_images/reportage/reportage_05.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(06)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 950/629;" aria-label="Открыть фото 6 из 45">
+          <img src="web_images/reportage/reportage_06.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(07)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 629/950;" aria-label="Открыть фото 7 из 45">
+          <img src="web_images/reportage/reportage_07.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(08)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 950/629;" aria-label="Открыть фото 8 из 45">
+          <img src="web_images/reportage/reportage_08.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(09)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 629/950;" aria-label="Открыть фото 9 из 45">
+          <img src="web_images/reportage/reportage_09.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(10)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 629/950;" aria-label="Открыть фото 10 из 45">
+          <img src="web_images/reportage/reportage_10.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(11)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 629/950;" aria-label="Открыть фото 11 из 45">
+          <img src="web_images/reportage/reportage_11.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(12)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 950/629;" aria-label="Открыть фото 12 из 45">
+          <img src="web_images/reportage/reportage_12.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(13)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 629/950;" aria-label="Открыть фото 13 из 45">
+          <img src="web_images/reportage/reportage_13.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(14)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 629/950;" aria-label="Открыть фото 14 из 45">
+          <img src="web_images/reportage/reportage_14.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(15)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 630/950;" aria-label="Открыть фото 15 из 45">
+          <img src="web_images/reportage/reportage_15.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(16)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 629/950;" aria-label="Открыть фото 16 из 45">
+          <img src="web_images/reportage/reportage_16.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(17)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 630/950;" aria-label="Открыть фото 17 из 45">
+          <img src="web_images/reportage/reportage_17.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(18)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 950/629;" aria-label="Открыть фото 18 из 45">
+          <img src="web_images/reportage/reportage_18.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(19)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 684/950;" aria-label="Открыть фото 19 из 45">
+          <img src="web_images/reportage/reportage_19.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(20)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 629/950;" aria-label="Открыть фото 20 из 45">
+          <img src="web_images/reportage/reportage_20.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(21)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 950/629;" aria-label="Открыть фото 21 из 45">
+          <img src="web_images/reportage/reportage_21.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(22)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 629/950;" aria-label="Открыть фото 22 из 45">
+          <img src="web_images/reportage/reportage_22.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(23)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 950/629;" aria-label="Открыть фото 23 из 45">
+          <img src="web_images/reportage/reportage_23.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(24)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 950/629;" aria-label="Открыть фото 24 из 45">
+          <img src="web_images/reportage/reportage_24.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(25)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 950/629;" aria-label="Открыть фото 25 из 45">
+          <img src="web_images/reportage/reportage_25.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(26)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 629/950;" aria-label="Открыть фото 26 из 45">
+          <img src="web_images/reportage/reportage_26.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(27)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 629/950;" aria-label="Открыть фото 27 из 45">
+          <img src="web_images/reportage/reportage_27.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(28)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 671/950;" aria-label="Открыть фото 28 из 45">
+          <img src="web_images/reportage/reportage_28.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(29)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 950/629;" aria-label="Открыть фото 29 из 45">
+          <img src="web_images/reportage/reportage_29.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(30)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 629/950;" aria-label="Открыть фото 30 из 45">
+          <img src="web_images/reportage/reportage_30.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(31)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 534/950;" aria-label="Открыть фото 31 из 45">
+          <img src="web_images/reportage/reportage_31.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(32)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 629/950;" aria-label="Открыть фото 32 из 45">
+          <img src="web_images/reportage/reportage_32.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(33)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 635/950;" aria-label="Открыть фото 33 из 45">
+          <img src="web_images/reportage/reportage_33.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(34)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 635/950;" aria-label="Открыть фото 34 из 45">
+          <img src="web_images/reportage/reportage_34.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(35)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 950/635;" aria-label="Открыть фото 35 из 45">
+          <img src="web_images/reportage/reportage_35.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(36)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 635/950;" aria-label="Открыть фото 36 из 45">
+          <img src="web_images/reportage/reportage_36.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(37)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 678/950;" aria-label="Открыть фото 37 из 45">
+          <img src="web_images/reportage/reportage_37.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(38)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 678/950;" aria-label="Открыть фото 38 из 45">
+          <img src="web_images/reportage/reportage_38.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(39)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 695/950;" aria-label="Открыть фото 39 из 45">
+          <img src="web_images/reportage/reportage_39.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(40)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 637/950;" aria-label="Открыть фото 40 из 45">
+          <img src="web_images/reportage/reportage_40.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(41)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 637/950;" aria-label="Открыть фото 41 из 45">
+          <img src="web_images/reportage/reportage_41.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(42)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 950/637;" aria-label="Открыть фото 42 из 45">
+          <img src="web_images/reportage/reportage_42.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(43)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 635/950;" aria-label="Открыть фото 43 из 45">
+          <img src="web_images/reportage/reportage_43.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(44)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 950/615;" aria-label="Открыть фото 44 из 45">
+          <img src="web_images/reportage/reportage_44.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(45)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 950/615;" aria-label="Открыть фото 45 из 45">
+          <img src="web_images/reportage/reportage_45.jpg" alt="Путешествия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Путешествия</div>
+      </div>
+      </div>
+    </div>
+  </div>
+  <!-- ИНДИВИДУАЛЬНЫЕ СЪЕМКИ — editorial photo stack, реальные кадры -->
+  <div class="photo-sub" data-sub="individual" id="photo-sub-individual">
+    <div class="wrap">
+      <div class="photo-stack reveal" data-photostack>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(01)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1600/1067;" aria-label="Открыть фото 1 из 19">
+          <img src="web_images/indiv/indiv_01.jpg" alt="Индивидуальная съемка" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Индивидуальная съемка</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(02)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1600/1067;" aria-label="Открыть фото 2 из 19">
+          <img src="web_images/indiv/indiv_02.jpg" alt="Индивидуальная съемка" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Индивидуальная съемка</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(03)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1067/1600;" aria-label="Открыть фото 3 из 19">
+          <img src="web_images/indiv/indiv_03.jpg" alt="Индивидуальная съемка" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Индивидуальная съемка</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(04)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1600/1067;" aria-label="Открыть фото 4 из 19">
+          <img src="web_images/indiv/indiv_04.jpg" alt="Индивидуальная съемка" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Индивидуальная съемка</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(05)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1067/1600;" aria-label="Открыть фото 5 из 19">
+          <img src="web_images/indiv/indiv_05.jpg" alt="Индивидуальная съемка" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Индивидуальная съемка</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(06)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1600/1067;" aria-label="Открыть фото 6 из 19">
+          <img src="web_images/indiv/indiv_06.jpg" alt="Индивидуальная съемка" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Индивидуальная съемка</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(07)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1600/1067;" aria-label="Открыть фото 7 из 19">
+          <img src="web_images/indiv/indiv_07.jpg" alt="Индивидуальная съемка" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Индивидуальная съемка</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(08)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1600/1315;" aria-label="Открыть фото 8 из 19">
+          <img src="web_images/indiv/indiv_08.jpg" alt="Индивидуальная съемка" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Индивидуальная съемка</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(09)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1080/1350;" aria-label="Открыть фото 9 из 19">
+          <img src="web_images/indiv/indiv_09.jpg" alt="Индивидуальная съемка" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Индивидуальная съемка</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(10)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1080/1350;" aria-label="Открыть фото 10 из 19">
+          <img src="web_images/indiv/indiv_10.jpg" alt="Индивидуальная съемка" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Индивидуальная съемка</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(11)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1080/1350;" aria-label="Открыть фото 11 из 19">
+          <img src="web_images/indiv/indiv_11.jpg" alt="Индивидуальная съемка" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Индивидуальная съемка</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(12)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1080/1350;" aria-label="Открыть фото 12 из 19">
+          <img src="web_images/indiv/indiv_12.jpg" alt="Индивидуальная съемка" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Индивидуальная съемка</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(13)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1600/1067;" aria-label="Открыть фото 13 из 19">
+          <img src="web_images/indiv/indiv_13.jpg" alt="Индивидуальная съемка" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Индивидуальная съемка</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(14)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1067/1600;" aria-label="Открыть фото 14 из 19">
+          <img src="web_images/indiv/indiv_14.jpg" alt="Индивидуальная съемка" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Индивидуальная съемка</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(15)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1067/1600;" aria-label="Открыть фото 15 из 19">
+          <img src="web_images/indiv/indiv_15.jpg" alt="Индивидуальная съемка" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Индивидуальная съемка</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(16)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1067/1600;" aria-label="Открыть фото 16 из 19">
+          <img src="web_images/indiv/indiv_16.jpg" alt="Индивидуальная съемка" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Индивидуальная съемка</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(17)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1067/1600;" aria-label="Открыть фото 17 из 19">
+          <img src="web_images/indiv/indiv_17.jpg" alt="Индивидуальная съемка" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Индивидуальная съемка</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(18)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1067/1600;" aria-label="Открыть фото 18 из 19">
+          <img src="web_images/indiv/indiv_18.jpg" alt="Индивидуальная съемка" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Индивидуальная съемка</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(19)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1067/1600;" aria-label="Открыть фото 19 из 19">
+          <img src="web_images/indiv/indiv_19.jpg" alt="Индивидуальная съемка" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Индивидуальная съемка</div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- МЕРОПРИЯТИЯ — editorial photo stack, реальные кадры -->
+  <div class="photo-sub" data-sub="events" id="photo-sub-events">
+    <div class="wrap">
+      <div class="photo-stack reveal" data-photostack>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(01)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1600/1067;" aria-label="Открыть фото 1 из 18">
+          <img src="web_images/events/events_01.jpg" alt="Мероприятия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Мероприятия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(02)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1600/1067;" aria-label="Открыть фото 2 из 18">
+          <img src="web_images/events/events_02.jpg" alt="Мероприятия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Мероприятия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(03)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1600/1067;" aria-label="Открыть фото 3 из 18">
+          <img src="web_images/events/events_03.jpg" alt="Мероприятия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Мероприятия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(04)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1600/1067;" aria-label="Открыть фото 4 из 18">
+          <img src="web_images/events/events_04.jpg" alt="Мероприятия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Мероприятия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(05)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1600/1067;" aria-label="Открыть фото 5 из 18">
+          <img src="web_images/events/events_05.jpg" alt="Мероприятия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Мероприятия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(06)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1600/1067;" aria-label="Открыть фото 6 из 18">
+          <img src="web_images/events/events_06.jpg" alt="Мероприятия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Мероприятия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(07)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1600/1067;" aria-label="Открыть фото 7 из 18">
+          <img src="web_images/events/events_07.jpg" alt="Мероприятия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Мероприятия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(08)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1600/1067;" aria-label="Открыть фото 8 из 18">
+          <img src="web_images/events/events_08.jpg" alt="Мероприятия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Мероприятия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(09)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1600/947;" aria-label="Открыть фото 9 из 18">
+          <img src="web_images/events/events_09.jpg" alt="Мероприятия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Мероприятия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(10)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1600/1067;" aria-label="Открыть фото 10 из 18">
+          <img src="web_images/events/events_10.jpg" alt="Мероприятия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Мероприятия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(11)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1600/1067;" aria-label="Открыть фото 11 из 18">
+          <img src="web_images/events/events_11.jpg" alt="Мероприятия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Мероприятия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(12)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1600/1067;" aria-label="Открыть фото 12 из 18">
+          <img src="web_images/events/events_12.jpg" alt="Мероприятия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Мероприятия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(13)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1600/1067;" aria-label="Открыть фото 13 из 18">
+          <img src="web_images/events/events_13.jpg" alt="Мероприятия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Мероприятия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(14)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1600/1067;" aria-label="Открыть фото 14 из 18">
+          <img src="web_images/events/events_14.jpg" alt="Мероприятия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Мероприятия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(15)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1600/1067;" aria-label="Открыть фото 15 из 18">
+          <img src="web_images/events/events_15.jpg" alt="Мероприятия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Мероприятия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(16)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1600/1067;" aria-label="Открыть фото 16 из 18">
+          <img src="web_images/events/events_16.jpg" alt="Мероприятия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Мероприятия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(17)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1600/1067;" aria-label="Открыть фото 17 из 18">
+          <img src="web_images/events/events_17.jpg" alt="Мероприятия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Мероприятия</div>
+      </div>
+      <div class="ps-row reveal">
+        <div class="ps-label ps-label-left">(18)</div>
+        <button class="ps-photo" type="button" style="aspect-ratio: 1600/1067;" aria-label="Открыть фото 18 из 18">
+          <img src="web_images/events/events_18.jpg" alt="Мероприятия" loading="lazy">
+          <span class="ps-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </button>
+        <div class="ps-label ps-label-right">Мероприятия</div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ПРЕДМЕТНАЯ СЪЕМКА — фотопроект «Лилица» (текст и кредиты реальные, фото ждем при переезде на свой домен) -->
+  <div class="photo-sub" data-sub="objects" id="photo-sub-objects">
+    <div class="wrap">
+      <div class="photo-group reveal">
+        <div class="eyebrow">Фотопроект «Лилица»</div>
+        <p style="color:var(--ink-dim); max-width:58ch; font-size:1.05rem; margin-top:0.9rem;">«Лилица» — бренд керамических изделий Лилии, которую я нашла на Авито. Мне захотелось оживить ее керамические лица и «поиграть в театр»: три вида декораций — бумажные, теневые и мини-театральная сцена.</p>
+        <div class="contact-sheet">
+          <div class="neg">01</div>
+          <div class="neg">02</div>
+          <div class="neg">03</div>
+          <div class="neg">04</div>
+          <div class="neg">05</div>
+          <div class="neg">06</div>
+        </div>
+        <div class="credits">
+          <div><div class="role">Фотограф</div><div class="names">Катя Борисова</div></div>
+          <div><div class="role">Керамика</div><div class="names"><a href="https://t.me/li_litsa" target="_blank" rel="noopener">Лилия ↗</a></div></div>
+          <div><div class="role">Куратор</div><div class="names">Артем Шамраев</div></div>
+          <div><div class="role">Сет-дизайнер</div><div class="names">Антонина Русиновская</div></div>
+          <div><div class="role">Художники по свету</div><div class="names">Свят Чеканов, Григорий Розанов</div></div>
+        </div>
+      </div>
+      <span class="tag-soon">фото в разработке</span>
+    </div>
+  </div>
+</section>
+</div><!-- /panel-photography -->
+
+<div class="panel" id="panel-teasers" role="tabpanel">
+<section id="teasers">
+  <div class="wrap">
+    <div class="section-head exhibit-head reveal">
+      <div class="eyebrow">Выставки</div>
+      <h2 class="section-title">Тизеры к открытиям</h2>
+    </div>
+  </div>
+
+  <article class="exhibit-project reveal">
+    <div class="wrap">
+      <div class="film-content">
+        <span class="film-index">01</span>
+        <h3 class="film-title">«Цветочные контуры»</h3>
+        <div class="tag-row">
+          <span class="tag-pill">Персональная выставка</span>
+          <span class="tag-pill">16 работ</span>
+        </div>
+        <p class="logline">Персональный проект Мари Першеевой — исследование чувственности в человеческом опыте, где цветы становятся метафорой трансформации красоты и уязвимости. Фотографии рассказывают историю девочки, которая видит мир через цветы: красота и одиночество становятся спутниками ее жизни, а яркие контуры цветов и контрасты света передают богатство ее эмоционального ландшафта.</p>
+      </div>
+    </div>
+    <div class="film-trailer-fullbleed exhibit-trailer">
+      <div class="trailer trailer--full">
+        <a class="trailer-play" href="https://youtu.be/3ZQvSW6YIj4" target="_blank" rel="noopener" aria-label="Смотреть тизер «Цветочные контуры» на YouTube">
+          <img class="trailer-poster" src="web_images/teaser_flowers_poster.jpg" alt="">
+          <span class="trailer-play-icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </span>
+          <span class="trailer-play-label">Смотреть тизер на YouTube ↗</span>
+        </a>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="credits">
+        <div><div class="role">Художница</div><div class="names"><a href="https://instagram.com/marie.persheeva" target="_blank" rel="noopener">Мари Першеева ↗</a></div></div>
+        <div><div class="role">Куратор</div><div class="names"><a href="https://instagram.com/polyasc" target="_blank" rel="noopener">Полина Лященко ↗</a></div></div>
+        <div><div class="role">Оператор и монтаж</div><div class="names"><a href="https://instagram.com/zmhmm_" target="_blank" rel="noopener">Катя Борисова ↗</a></div></div>
+        <div><div class="role">Видео с хэнди-кам</div><div class="names">Камилла Мамедова</div></div>
+      </div>
+    </div>
+  </article>
+
+  <div class="wrap">
+    <div class="teaser-grid reveal">
+      <div class="teaser-slot"><span class="teaser-index">02</span><span class="teaser-label">видео скоро здесь</span></div>
+      <div class="teaser-slot"><span class="teaser-index">03</span><span class="teaser-label">видео скоро здесь</span></div>
+      <div class="teaser-slot"><span class="teaser-index">04</span><span class="teaser-label">видео скоро здесь</span></div>
+    </div>
+    <span class="tag-soon">в разработке</span>
+  </div>
+</section>
+</div><!-- /panel-teasers -->
+
+<div class="panel" id="panel-editing" role="tabpanel">
+<section id="editing">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Монтаж</div>
+      <h2 class="section-title">Проекты, где я работала режиссером монтажа</h2>
+    </div>
+
+    <div class="photo-group reveal">
+      <div class="eyebrow">Ютуб-канал «limeihuahong»</div>
+      <p style="color:var(--ink-dim); max-width:58ch; font-size:1.05rem; margin-top:-0.6rem;">Почти год монтировала влоги для этого канала.</p>
+      <div class="vlog-grid">
+        <a class="vlog-card" href="https://youtu.be/txCHQScJ9kQ" target="_blank" rel="noopener">
+          <div class="vlog-thumb">
+            <img src="web_images/yt_vlog1.jpg" alt="Мой переезд в Китай">
+            <div class="vlog-play"><svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="black" fill-opacity="0.45"/><path d="M10 8l6 4-6 4V8z" fill="white"/></svg></div>
+          </div>
+          <div class="vlog-title">Мой переезд в Китай — первые дни в университете</div>
+        </a>
+        <a class="vlog-card" href="https://youtu.be/5GEHiV6_7vE" target="_blank" rel="noopener">
+          <div class="vlog-thumb">
+            <img src="web_images/yt_vlog2.jpg" alt="Моя учеба в Китае">
+            <div class="vlog-play"><svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="black" fill-opacity="0.45"/><path d="M10 8l6 4-6 4V8z" fill="white"/></svg></div>
+          </div>
+          <div class="vlog-title">Моя учеба в Китае — распаковка и парк с лотосами</div>
+        </a>
+        <a class="vlog-card" href="https://youtu.be/m08oiSrsoxc" target="_blank" rel="noopener">
+          <div class="vlog-thumb">
+            <img src="web_images/yt_vlog3.jpg" alt="Рождество в Китае">
+            <div class="vlog-play"><svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="black" fill-opacity="0.45"/><path d="M10 8l6 4-6 4V8z" fill="white"/></svg></div>
+          </div>
+          <div class="vlog-title">Рождество в Китае — IKEA, каток, подарки</div>
+        </a>
+      </div>
+      <a class="kinopoisk-link" href="https://www.youtube.com/@limeihuahong" target="_blank" rel="noopener">Канал на YouTube ↗</a>
+    </div>
+
+    <div class="photo-group reveal">
+      <div class="eyebrow">Видеозапись спектакля «До поезда осталось»</div>
+      <p style="color:var(--ink-dim); max-width:58ch; font-size:1.05rem; margin-top:-0.6rem;">Смонтировала видеозапись спектакля целиком — ниже два эпизода из монтажа.</p>
+      <div class="play-card">
+        <div class="play-card-title">«До поезда осталось»</div>
+        <div class="play-card-meta">
+          Электротеатр Станиславский · режиссер <b>Ирина Михеева</b><br>
+          Танцевальный спектакль по мотивам «Анны Карениной» — тело вместо слов, метафорический образ вместо декораций.<br>
+          В ролях: <b>Дарья Павленко</b>, <b>Владислав Лантратов</b>, <b>Михаил Шиманский</b>
+        </div>
+        <a class="kinopoisk-link" href="https://electrotheatre.ru/repertoire/spectacle/1248" target="_blank" rel="noopener">О спектакле ↗</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="editing-fullbleed reveal">
+    <div class="editing-clip-grid">
+      <div class="editing-clip" style="aspect-ratio: 360/202;">
+        <video src="web_images/editing/dpo_1.mp4" autoplay muted loop playsinline></video>
+      </div>
+      <div class="editing-clip" style="aspect-ratio: 360/202;">
+        <video src="web_images/editing/dpo_2.mp4" autoplay muted loop playsinline></video>
+      </div>
+    </div>
+  </div>
+</section>
+</div><!-- /panel-editing -->
+
+<div class="panel" id="panel-reels" role="tabpanel">
+<section id="reels">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Рилсы</div>
+      <h2 class="section-title">Короткий вертикальный формат для соцсетей</h2>
+    </div>
+
+    <span class="film-index">01</span>
+    <h3 class="reel-case-title">Beautiful Things</h3>
+  </div>
+
+  <div class="reel-fullbleed reveal">
+    <div class="reel-frame" style="aspect-ratio: 1498 / 1080;">
+      <a class="reel-link" href="https://kinescope.io/kUsCLgqsNSfcaCssfQ4aEy" target="_blank" rel="noopener" aria-label="Смотреть рилс на Kinescope">
+        <img class="reel-poster" src="web_images/reel1_poster.jpg" alt="">
+        <span class="reel-link-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </span>
+        <span class="reel-link-label">Смотреть рилс на Kinescope ↗</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="reel-case reveal" style="border-top:1px solid var(--line); padding-top:2.8rem; margin-top:0;">
+      <span class="film-index">02</span>
+      <div class="insta-credit">
+        <div class="insta-avatar"><img src="web_images/logo_filmnapolke.png" alt="Аватар аккаунта filmnapolke"></div>
+        <div class="insta-copy">
+          <div class="eyebrow"><span>Вела<sup class="insta-note-mark">*</sup></span></div>
+          <a class="insta-handle" href="https://instagram.com/filmnapolke" target="_blank" rel="noopener">@filmnapolke ↗</a>
+        </div>
+      </div>
+
+      <div class="reel-grid">
+        <div class="reel-frame" style="aspect-ratio: 9 / 16;">
+          <video src="web_images/reels/reel1.mp4" autoplay muted loop playsinline controls></video>
+        </div>
+        <div class="reel-frame" style="aspect-ratio: 9 / 16;">
+          <video src="web_images/reels/reel2.mp4" autoplay muted loop playsinline controls></video>
+        </div>
+        <div class="reel-frame" style="aspect-ratio: 9 / 16;">
+          <video src="web_images/reels/reel3.mp4" autoplay muted loop playsinline controls></video>
+        </div>
+      </div>
+
+      <p class="reel-footnote">*не все рилсы в профиле были созданы мной</p>
+    </div>
+  </div>
+</section>
+</div><!-- /panel-reels -->
+
+<section id="contact">
+  <div class="wrap">
+    <div class="eyebrow" style="justify-content:center;">Контакты</div>
+    <h2 class="contact-line reveal">Есть история, которую <em>стоит снять</em>?</h2>
+    <div class="contact-links reveal">
+      <a href="mailto:katyabori@gmail.com" data-key="email">katyabori@gmail.com</a>
+      <a href="https://instagram.com/zmhmm_" target="_blank" rel="noopener" data-key="instagram">Instagram</a>
+      <a href="https://t.me/zmhmmmmm" target="_blank" rel="noopener" data-key="telegram">Telegram</a>
+      <a href="https://mubi.com/en/cast/ekaterina-borisova-1" target="_blank" rel="noopener" data-key="mubi">MUBI</a>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 Катя Борисова · сайт-портфолио</footer>
+
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lb-close" type="button" aria-label="Закрыть">✕</button>
+  <button class="lb-arrow lb-prev" type="button" aria-label="Предыдущее фото">‹</button>
+  <img class="lb-img" src="" alt="">
+  <button class="lb-arrow lb-next" type="button" aria-label="Следующее фото">›</button>
+  <div class="lb-counter"><span class="lb-current">1</span> / <span class="lb-total">1</span></div>
+</div>
+
+<script>
+(function(){
+  var header = document.getElementById('siteHeader');
+  var tabbarEl = document.querySelector('.tabbar');
+  var onScroll = function(){
+    if(window.scrollY > 40){ header.classList.add('scrolled'); } else { header.classList.remove('scrolled'); }
+  };
+  document.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  function syncHeaderHeight(){
+    if(header && tabbarEl){
+      tabbarEl.style.top = header.offsetHeight + 'px';
+      document.documentElement.style.setProperty('--sticky-offset', (header.offsetHeight + tabbarEl.offsetHeight) + 'px');
+    }
+  }
+  syncHeaderHeight();
+  window.addEventListener('resize', syncHeaderHeight);
+
+  var revealEls = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('is-visible'); io.unobserve(e.target); }
+      });
+    }, {threshold: 0.12, rootMargin: '0px 0px -8% 0px'});
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('is-visible'); });
+  }
+
+  // role tabs
+  var tabs = document.querySelectorAll('.tab');
+  var panels = {
+    films: document.getElementById('panel-films'),
+    photography: document.getElementById('panel-photography'),
+    teasers: document.getElementById('panel-teasers'),
+    editing: document.getElementById('panel-editing'),
+    reels: document.getElementById('panel-reels')
+  };
+
+  function activateTab(name, opts){
+    opts = opts || {};
+    if(!panels[name]) return;
+    tabs.forEach(function(t){
+      var on = t.getAttribute('data-tab') === name;
+      t.classList.toggle('active', on);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    Object.keys(panels).forEach(function(key){
+      panels[key].classList.toggle('active', key === name);
+    });
+    if(location.hash.replace('#','') !== name){
+      history.replaceState(null, '', '#'+name);
+    }
+    if(opts.scroll && panels[name]){
+      panels[name].scrollIntoView({behavior: 'smooth', block: 'start'});
+    }
+  }
+
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){
+      activateTab(t.getAttribute('data-tab'), {scroll:true});
+    });
+  });
+
+  var initial = location.hash.replace('#','');
+  if(panels[initial]){ activateTab(initial); }
+
+  // photography: sub-section pill switcher
+  var photoSubtabs = document.querySelectorAll('.photo-subtab');
+  var photoSubs = document.querySelectorAll('.photo-sub');
+  function activatePhotoSub(name){
+    photoSubs.forEach(function(s){ s.classList.toggle('active', s.getAttribute('data-sub') === name); });
+    photoSubtabs.forEach(function(t){
+      var on = t.getAttribute('data-subtab') === name;
+      t.classList.toggle('active', on);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+  }
+  photoSubtabs.forEach(function(t){
+    t.addEventListener('click', function(){ activatePhotoSub(t.getAttribute('data-subtab')); });
+  });
+
+  // photo-stack lightbox: click any frame to open it full-screen, arrows/swipe/keys
+  // step through the same stack group
+  var lightbox = document.getElementById('lightbox');
+  if(lightbox){
+    var lbImg = lightbox.querySelector('.lb-img');
+    var lbCurrent = lightbox.querySelector('.lb-current');
+    var lbTotal = lightbox.querySelector('.lb-total');
+    var lbGroup = [];
+    var lbIndex = 0;
+
+    function lbShow(){
+      var frame = lbGroup[lbIndex];
+      var img = frame.querySelector('img');
+      lbImg.src = img.getAttribute('src');
+      lbImg.alt = img.getAttribute('alt') || '';
+      lbCurrent.textContent = lbIndex + 1;
+      lbTotal.textContent = lbGroup.length;
+    }
+    function lbOpen(group, index){
+      lbGroup = Array.prototype.slice.call(group.querySelectorAll('.ps-photo'));
+      lbIndex = index;
+      lbShow();
+      lightbox.classList.add('active');
+      lightbox.setAttribute('aria-hidden', 'false');
+    }
+    function lbClose(){
+      lightbox.classList.remove('active');
+      lightbox.setAttribute('aria-hidden', 'true');
+      lbImg.src = '';
+    }
+    function lbNext(){ lbIndex = (lbIndex + 1) % lbGroup.length; lbShow(); }
+    function lbPrev(){ lbIndex = (lbIndex - 1 + lbGroup.length) % lbGroup.length; lbShow(); }
+
+    document.querySelectorAll('.photo-stack').forEach(function(group){
+      var frames = group.querySelectorAll('.ps-photo');
+      frames.forEach(function(frame, i){
+        frame.addEventListener('click', function(){ lbOpen(group, i); });
+      });
+    });
+
+    lightbox.querySelector('.lb-close').addEventListener('click', lbClose);
+    lightbox.querySelector('.lb-next').addEventListener('click', lbNext);
+    lightbox.querySelector('.lb-prev').addEventListener('click', lbPrev);
+    lightbox.addEventListener('click', function(e){ if(e.target === lightbox) lbClose(); });
+
+    var lbStartX = null;
+    lightbox.addEventListener('touchstart', function(e){ lbStartX = e.touches[0].clientX; }, {passive:true});
+    lightbox.addEventListener('touchend', function(e){
+      if(lbStartX === null) return;
+      var dx = e.changedTouches[0].clientX - lbStartX;
+      if(Math.abs(dx) > 40){ dx < 0 ? lbNext() : lbPrev(); }
+      lbStartX = null;
+    }, {passive:true});
+
+    document.addEventListener('keydown', function(e){
+      if(!lightbox.classList.contains('active')) return;
+      if(e.key === 'Escape') lbClose();
+      if(e.key === 'ArrowRight') lbNext();
+      if(e.key === 'ArrowLeft') lbPrev();
+    });
+  }
+})();
+</script>
+
+<script>
+// Loads editable text/links from content.json when it's present next to this
+// page (the real hosted site with the CMS). Fails silently everywhere else
+// (e.g. inside the Claude Artifact preview, which has no content.json) —
+// the hardcoded defaults above stay exactly as written.
+(function(){
+  fetch('content.json', {cache: 'no-store'}).then(function(r){
+    if(!r.ok) throw 0;
+    return r.json();
+  }).then(function(d){
+    if(d.heroRole){
+      var el = document.getElementById('js-hero-role');
+      if(el) el.textContent = d.heroRole;
+    }
+    if(d.heroCredential){
+      var el2 = document.getElementById('js-hero-credential');
+      if(el2) el2.textContent = d.heroCredential;
+    }
+    if(d.contacts){
+      document.querySelectorAll('.contact-links a[data-key]').forEach(function(a){
+        var c = d.contacts[a.getAttribute('data-key')];
+        if(c){
+          if(c.url) a.setAttribute('href', c.url);
+          if(c.label) a.textContent = c.label;
+        }
+      });
+    }
+  }).catch(function(){ /* no content.json here — keep defaults */ });
+})();
+</script>
+</body>
+</html>

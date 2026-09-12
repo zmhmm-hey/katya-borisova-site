@@ -1,0 +1,55 @@
+# Decap CMS configuration.
+# Backend: Netlify Identity + Git Gateway — Катя логинится по email/паролю
+# (без своего аккаунта на GitHub), а сохранение формы делает коммит
+# в репозиторий сайта. Netlify сам пересобирает и публикует сайт после
+# каждого сохранения — обычно в течение минуты.
+backend:
+  name: git-gateway
+  branch: main
+
+# После публикации формы в CMS Netlify мгновенно показывает предпросмотр
+# по этому пути (не обязательно, но удобно).
+site_url: https://katyaborisova.art
+display_url: https://katyaborisova.art
+
+media_folder: "web_images/cms-uploads"
+public_folder: "/web_images/cms-uploads"
+
+collections:
+  - name: "content"
+    label: "Текст и ссылки на сайте"
+    files:
+      - name: "main"
+        label: "Главная страница"
+        file: "content.json"
+        fields:
+          - { label: "Роль (под именем в шапке)", name: "heroRole", widget: "string" }
+          - { label: "Подпись под ролью", name: "heroCredential", widget: "string" }
+          - label: "Контакты (блок внизу сайта)"
+            name: "contacts"
+            widget: "object"
+            fields:
+              - label: "Email"
+                name: "email"
+                widget: "object"
+                fields:
+                  - { label: "Ссылка (mailto:...)", name: "url", widget: "string" }
+                  - { label: "Текст ссылки", name: "label", widget: "string" }
+              - label: "Instagram"
+                name: "instagram"
+                widget: "object"
+                fields:
+                  - { label: "Ссылка", name: "url", widget: "string" }
+                  - { label: "Текст ссылки", name: "label", widget: "string" }
+              - label: "Telegram"
+                name: "telegram"
+                widget: "object"
+                fields:
+                  - { label: "Ссылка", name: "url", widget: "string" }
+                  - { label: "Текст ссылки", name: "label", widget: "string" }
+              - label: "MUBI"
+                name: "mubi"
+                widget: "object"
+                fields:
+                  - { label: "Ссылка", name: "url", widget: "string" }
+                  - { label: "Текст ссылки", name: "label", widget: "string" }
