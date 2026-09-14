@@ -1,10 +1,22 @@
 {
   "heroRole": "автор идеи · сценарист · режиссер-постановщик · режиссер монтажа",
-  "heroCredential": "Разработаю уникальную концепцию и воплощу ее в жизнь",
+  "heroCredential": "Разработаю вашу уникальную концепцию и воплощу ее в жизнь!",
   "contacts": {
-    "email": { "url": "mailto:katyabori@gmail.com", "label": "katyabori@gmail.com" },
-    "instagram": { "url": "https://instagram.com/zmhmm_", "label": "Instagram" },
-    "telegram": { "url": "https://t.me/zmhmmmmm", "label": "Telegram" },
-    "mubi": { "url": "https://mubi.com/en/cast/ekaterina-borisova-1", "label": "MUBI" }
+    "email": {
+      "url": "mailto:katyabori@gmail.com",
+      "label": "katyabori@gmail.com"
+    },
+    "instagram": {
+      "url": "https://instagram.com/zmhmm_",
+      "label": "Instagram"
+    },
+    "telegram": {
+      "url": "https://t.me/zmhmmmmm",
+      "label": "Telegram"
+    },
+    "mubi": {
+      "url": "https://mubi.com/en/cast/ekaterina-borisova-1",
+      "label": "MUBI"
+    }
   }
 }
