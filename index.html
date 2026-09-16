@@ -293,6 +293,49 @@ nav.links a.active::after, nav.links a:hover::after{ right:0; }
   padding: 0.8rem 0.95rem; color: var(--ink-dim);
 }
 
+/* fullbleed variant of .vlog-grid -- edge-to-edge single row, same technique
+   as .editing-clip-grid, used for the limeihuahong vlog thumbnails */
+.vlog-grid--fullbleed{
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin: 0;
+}
+.vlog-grid--fullbleed .vlog-card{ border-radius:0; border:none; }
+.vlog-grid--fullbleed .vlog-thumb{ aspect-ratio: 16/9; }
+
+/* row of three film posters -- projects Kate also edited, shown above the
+   YouTube channel block; a lighter echo of .film-media--poster from Works */
+.editing-poster-row{
+  display:grid; grid-template-columns: repeat(3, minmax(90px, 1fr));
+  gap: clamp(0.6rem, 2vw, 1.2rem);
+  margin: 0.2rem 0 2.2rem;
+  max-width: 620px;
+}
+.editing-poster{
+  display:flex; align-items:center; justify-content:center;
+  aspect-ratio: 2/3;
+  background: var(--bg-raised-2);
+  border:1px solid var(--line); border-radius:6px;
+  padding: 0.7rem;
+}
+.editing-poster img{
+  width:auto; height:100%; max-width:100%;
+  object-fit:contain; display:block;
+  box-shadow: 0 16px 34px -14px var(--shadow);
+  border-radius:2px;
+}
+
+.editing-channel-name{
+  font-family:'Unbounded', sans-serif; font-weight:700;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin: 0.9rem 0 0.3rem;
+}
+.editing-channel-name a{
+  text-decoration:none; color: var(--ink);
+  transition: color 0.25s ease;
+}
+.editing-channel-name a:hover{ color: var(--accent); }
+
 .play-card{
   display:block; border:1px solid var(--line); border-radius:6px; padding: 1.6rem;
   background: var(--bg-raised-2); margin: 1.6rem 0 2.2rem; max-width: 620px;
@@ -1866,32 +1909,47 @@ footer{
       <h2 class="section-title">Проекты, где я работала режиссером монтажа</h2>
     </div>
 
+    <div class="editing-poster-row reveal">
+      <div class="editing-poster"><img src="web_images/poster_papa.jpg" alt="Постер «А вы не видели моего папу?»"></div>
+      <div class="editing-poster"><img src="web_images/poster_allo.jpg" alt="Постер «Алло, люблю»"></div>
+      <div class="editing-poster"><img src="web_images/poster_matveevka.jpg" alt="Постер «Остановка Матвеевка»"></div>
+    </div>
+
     <div class="photo-group reveal">
-      <div class="eyebrow">Ютуб-канал «limeihuahong»</div>
-      <p style="color:var(--ink-dim); max-width:58ch; font-size:1.05rem; margin-top:-0.6rem;">Почти год монтировала влоги для этого канала.</p>
-      <div class="vlog-grid">
-        <a class="vlog-card" href="https://youtu.be/txCHQScJ9kQ" target="_blank" rel="noopener">
-          <div class="vlog-thumb">
-            <img src="web_images/yt_vlog1.jpg" alt="Мой переезд в Китай">
-            <div class="vlog-play"><svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="black" fill-opacity="0.45"/><path d="M10 8l6 4-6 4V8z" fill="white"/></svg></div>
-          </div>
-          <div class="vlog-title">Мой переезд в Китай — первые дни в университете</div>
-        </a>
-        <a class="vlog-card" href="https://youtu.be/5GEHiV6_7vE" target="_blank" rel="noopener">
-          <div class="vlog-thumb">
-            <img src="web_images/yt_vlog2.jpg" alt="Моя учеба в Китае">
-            <div class="vlog-play"><svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="black" fill-opacity="0.45"/><path d="M10 8l6 4-6 4V8z" fill="white"/></svg></div>
-          </div>
-          <div class="vlog-title">Моя учеба в Китае — распаковка и парк с лотосами</div>
-        </a>
-        <a class="vlog-card" href="https://youtu.be/m08oiSrsoxc" target="_blank" rel="noopener">
-          <div class="vlog-thumb">
-            <img src="web_images/yt_vlog3.jpg" alt="Рождество в Китае">
-            <div class="vlog-play"><svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="black" fill-opacity="0.45"/><path d="M10 8l6 4-6 4V8z" fill="white"/></svg></div>
-          </div>
-          <div class="vlog-title">Рождество в Китае — IKEA, каток, подарки</div>
-        </a>
-      </div>
+      <div class="eyebrow">Ютуб-канал</div>
+      <h3 class="editing-channel-name"><a href="https://www.youtube.com/@limeihuahong" target="_blank" rel="noopener">limeihuahong ↗</a></h3>
+      <p style="color:var(--ink-dim); max-width:58ch; font-size:1.05rem; margin-top:0.2rem;">Смонтировала влоги, выпущенные с октября 2024 по август 2025.</p>
+    </div>
+  </div><!-- /wrap -->
+
+  <div class="editing-fullbleed reveal">
+    <div class="vlog-grid vlog-grid--fullbleed">
+      <a class="vlog-card" href="https://youtu.be/txCHQScJ9kQ" target="_blank" rel="noopener">
+        <div class="vlog-thumb">
+          <img src="web_images/yt_vlog1.jpg" alt="Мой переезд в Китай">
+          <div class="vlog-play"><svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="black" fill-opacity="0.45"/><path d="M10 8l6 4-6 4V8z" fill="white"/></svg></div>
+        </div>
+        <div class="vlog-title">Мой переезд в Китай — первые дни в университете</div>
+      </a>
+      <a class="vlog-card" href="https://youtu.be/5GEHiV6_7vE" target="_blank" rel="noopener">
+        <div class="vlog-thumb">
+          <img src="web_images/yt_vlog2.jpg" alt="Моя учеба в Китае">
+          <div class="vlog-play"><svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="black" fill-opacity="0.45"/><path d="M10 8l6 4-6 4V8z" fill="white"/></svg></div>
+        </div>
+        <div class="vlog-title">Моя учеба в Китае — распаковка и парк с лотосами</div>
+      </a>
+      <a class="vlog-card" href="https://youtu.be/m08oiSrsoxc" target="_blank" rel="noopener">
+        <div class="vlog-thumb">
+          <img src="web_images/yt_vlog3.jpg" alt="Рождество в Китае">
+          <div class="vlog-play"><svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="black" fill-opacity="0.45"/><path d="M10 8l6 4-6 4V8z" fill="white"/></svg></div>
+        </div>
+        <div class="vlog-title">Рождество в Китае — IKEA, каток, подарки</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="photo-group reveal" style="margin-top: 2.2rem;">
       <a class="kinopoisk-link" href="https://www.youtube.com/@limeihuahong" target="_blank" rel="noopener">Канал на YouTube ↗</a>
     </div>
 
