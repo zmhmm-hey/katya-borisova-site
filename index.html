@@ -2129,6 +2129,35 @@ footer{
   var initial = location.hash.replace('#','');
   if(panels[initial]){ activateTab(initial); }
 
+  // seamless looping for ambient background/editing clips: jump back to the
+  // start a fraction of a second before the real last frame, instead of
+  // waiting for the native loop restart, which flashes/flickers for an
+  // instant right at the seam in some browsers.
+  document.querySelectorAll('video[loop]').forEach(function(v){
+    v.addEventListener('timeupdate', function(){
+      if(v.duration && v.currentTime > v.duration - 0.12){
+        v.currentTime = 0;
+      }
+    });
+  });
+
+  // Safari can refuse a programmatic play() call in some situations (e.g. a
+  // panel that became active from a URL hash on load, with no user gesture
+  // yet). As a safety net, nudge any still-paused autoplay video in the
+  // active panel to play on the visitor's first interaction anywhere on
+  // the page, so ambient clips never get stuck needing a manual tap.
+  function nudgeVisibleVideos(){
+    document.querySelectorAll('.panel.active video[autoplay]').forEach(function(v){
+      if(v.paused){
+        var p = v.play();
+        if(p && p.catch){ p.catch(function(){}); }
+      }
+    });
+  }
+  ['click','touchstart','keydown','scroll'].forEach(function(evt){
+    document.addEventListener(evt, nudgeVisibleVideos, {passive:true});
+  });
+
   // photography: sub-section pill switcher
   var photoSubtabs = document.querySelectorAll('.photo-subtab');
   var photoSubs = document.querySelectorAll('.photo-sub');
