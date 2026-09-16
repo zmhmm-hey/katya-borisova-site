@@ -297,32 +297,24 @@ nav.links a.active::after, nav.links a:hover::after{ right:0; }
    as .editing-clip-grid, used for the limeihuahong vlog thumbnails */
 .vlog-grid--fullbleed{
   grid-template-columns: repeat(3, 1fr);
-  gap: 2px;
+  gap: 12px;
   margin: 0;
 }
 .vlog-grid--fullbleed .vlog-card{ border-radius:0; border:none; }
 .vlog-grid--fullbleed .vlog-thumb{ aspect-ratio: 16/9; }
 
-/* row of three film posters -- projects Kate also edited, shown above the
-   YouTube channel block; a lighter echo of .film-media--poster from Works */
+/* row of three film posters -- full-bleed, no card chrome, just the images --
+   projects Kate also edited, shown above the YouTube channel block */
 .editing-poster-row{
-  display:grid; grid-template-columns: repeat(3, minmax(90px, 1fr));
-  gap: clamp(0.6rem, 2vw, 1.2rem);
-  margin: 0.2rem 0 2.2rem;
-  max-width: 620px;
+  display:grid; grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
 }
 .editing-poster{
-  display:flex; align-items:center; justify-content:center;
-  aspect-ratio: 2/3;
-  background: var(--bg-raised-2);
-  border:1px solid var(--line); border-radius:6px;
-  padding: 0.7rem;
+  position:relative; overflow:hidden; background:#000;
+  aspect-ratio: 3/4;
 }
 .editing-poster img{
-  width:auto; height:100%; max-width:100%;
-  object-fit:contain; display:block;
-  box-shadow: 0 16px 34px -14px var(--shadow);
-  border-radius:2px;
+  width:100%; height:100%; object-fit:cover; display:block;
 }
 
 .editing-channel-name{
@@ -1908,17 +1900,21 @@ footer{
       <div class="eyebrow">Монтаж</div>
       <h2 class="section-title">Проекты, где я работала режиссером монтажа</h2>
     </div>
+  </div><!-- /wrap -->
 
-    <div class="editing-poster-row reveal">
+  <div class="editing-fullbleed reveal">
+    <div class="editing-poster-row">
       <div class="editing-poster"><img src="web_images/poster_papa.jpg" alt="Постер «А вы не видели моего папу?»"></div>
       <div class="editing-poster"><img src="web_images/poster_allo.jpg" alt="Постер «Алло, люблю»"></div>
       <div class="editing-poster"><img src="web_images/poster_matveevka.jpg" alt="Постер «Остановка Матвеевка»"></div>
     </div>
+  </div>
 
+  <div class="wrap">
     <div class="photo-group reveal">
       <div class="eyebrow">Ютуб-канал</div>
       <h3 class="editing-channel-name"><a href="https://www.youtube.com/@limeihuahong" target="_blank" rel="noopener">limeihuahong ↗</a></h3>
-      <p style="color:var(--ink-dim); max-width:58ch; font-size:1.05rem; margin-top:0.2rem;">Смонтировала влоги, выпущенные с октября 2024 по август 2025.</p>
+      <p style="color:var(--ink-dim); max-width:58ch; font-size:1.05rem; margin-top:0.2rem;">Смонтировала влоги, выпущенные с октября 2024 по август 2025</p>
     </div>
   </div><!-- /wrap -->
 
@@ -1949,10 +1945,6 @@ footer{
   </div>
 
   <div class="wrap">
-    <div class="photo-group reveal" style="margin-top: 2.2rem;">
-      <a class="kinopoisk-link" href="https://www.youtube.com/@limeihuahong" target="_blank" rel="noopener">Канал на YouTube ↗</a>
-    </div>
-
     <div class="photo-group reveal">
       <div class="eyebrow">Видеозапись спектакля «До поезда осталось»</div>
       <p style="color:var(--ink-dim); max-width:58ch; font-size:1.05rem; margin-top:-0.6rem;">Смонтировала видеозапись спектакля целиком — ниже два эпизода из монтажа.</p>
