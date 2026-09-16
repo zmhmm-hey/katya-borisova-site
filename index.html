@@ -122,6 +122,13 @@ nav.links a.active::after, nav.links a:hover::after{ right:0; }
   background: color-mix(in srgb, var(--bg) 92%, transparent);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
+  transition: transform 0.35s ease;
+}
+/* slid up out of view while scrolling down; scrolling back up (or being
+   near the top of the page) brings it back -- see the scroll listener */
+.tabbar.tabbar--hidden{ transform: translateY(-100%); }
+@media (prefers-reduced-motion: reduce){
+  .tabbar{ transition: none; }
 }
 .tabbar-inner{ display:flex; align-items:center; gap: clamp(1rem, 4vw, 2.2rem); padding: 1.1rem 0; flex-wrap:wrap; }
 .tabbar .eyebrow{ margin:0; }
@@ -2054,8 +2061,24 @@ footer{
 (function(){
   var header = document.getElementById('siteHeader');
   var tabbarEl = document.querySelector('.tabbar');
+  var lastScrollY = window.scrollY;
   var onScroll = function(){
-    if(window.scrollY > 40){ header.classList.add('scrolled'); } else { header.classList.remove('scrolled'); }
+    var y = window.scrollY;
+    if(y > 40){ header.classList.add('scrolled'); } else { header.classList.remove('scrolled'); }
+
+    // sections tabbar: hide while scrolling down, bring back while
+    // scrolling up (or whenever we're back near the top of the page)
+    if(tabbarEl){
+      var delta = y - lastScrollY;
+      if(y < 80){
+        tabbarEl.classList.remove('tabbar--hidden');
+      } else if(delta > 8){
+        tabbarEl.classList.add('tabbar--hidden');
+      } else if(delta < -8){
+        tabbarEl.classList.remove('tabbar--hidden');
+      }
+    }
+    lastScrollY = y;
   };
   document.addEventListener('scroll', onScroll, {passive:true});
   onScroll();
