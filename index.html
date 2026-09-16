@@ -2102,6 +2102,16 @@ footer{
     Object.keys(panels).forEach(function(key){
       panels[key].classList.toggle('active', key === name);
     });
+    // videos inside a hidden (display:none) panel don't actually start
+    // playing even with the autoplay attribute -- re-trigger play() once
+    // the panel becomes visible so ambient clips (editing, reels) start
+    // on their own instead of needing a manual tap.
+    if(panels[name]){
+      panels[name].querySelectorAll('video[autoplay]').forEach(function(v){
+        var p = v.play();
+        if(p && p.catch){ p.catch(function(){}); }
+      });
+    }
     if(location.hash.replace('#','') !== name){
       history.replaceState(null, '', '#'+name);
     }
