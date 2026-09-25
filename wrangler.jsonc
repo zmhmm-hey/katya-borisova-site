@@ -1,7 +1,9 @@
 {
   "name": "katya-borisova-site",
   "compatibility_date": "2026-09-24",
+  "main": "worker.js",
   "assets": {
-    "directory": "."
+    "directory": ".",
+    "binding": "ASSETS"
   }
 }

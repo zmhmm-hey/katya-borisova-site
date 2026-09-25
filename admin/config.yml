@@ -1,14 +1,20 @@
 # Decap CMS configuration.
-# Backend: Netlify Identity + Git Gateway — Катя логинится по email/паролю
-# (без своего аккаунта на GitHub), а сохранение формы делает коммит
-# в репозиторий сайта. Netlify сам пересобирает и публикует сайт после
-# каждого сохранения — обычно в течение минуты.
+# Backend: GitHub OAuth — Катя логинится своим GitHub-аккаунтом (у которого
+# есть доступ к репозиторию), а сохранение формы делает коммит в репозиторий
+# сайта напрямую через GitHub API. Cloudflare Worker пересобирает и публикует
+# сайт после каждого пуша (как обычно), обычно в течение минуты.
+#
+# Логин обслуживает сам сайт (см. worker.js в корне репозитория, роуты
+# /auth и /callback) — Netlify тут больше не участвует.
 backend:
-  name: git-gateway
+  name: github
+  repo: zmhmm-hey/katya-borisova-site
   branch: main
+  base_url: https://katyaborisova.art
+  auth_endpoint: auth
 
-# После публикации формы в CMS Netlify мгновенно показывает предпросмотр
-# по этому пути (не обязательно, но удобно).
+# После публикации формы в CMS отсюда показывается ссылка на предпросмотр
+# (не обязательно, но удобно).
 site_url: https://katyaborisova.art
 display_url: https://katyaborisova.art
 
