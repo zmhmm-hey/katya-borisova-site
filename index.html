@@ -366,16 +366,15 @@ nav.links a.active::after, nav.links a:hover::after{ right:0; }
 /* filled entries reuse the .film / .trailer patterns from Works, full-bleed,
    so an exhibition project reads with the same weight as a short film —
    not a small icon grid. */
-.exhibit-head{ margin-bottom: 2.2rem; }
-/* the section label stays quiet — a plain sans line, not a second headline —
-   so it doesn't compete with the actual project title (film-title) below it */
+.exhibit-head{ margin-bottom: 3.6rem; padding-bottom: 2.4rem; border-bottom: 1px solid var(--line); }
+/* the section subtitle stays clearly a step below the project titles that
+   follow it (film-title: 2-3.2rem/800/uppercase) — smaller, lighter weight,
+   dimmer color, sentence case — so the two don't blur into one wall of text */
 .exhibit-head .section-title{
-  font-family:'Manrope', sans-serif;
-  font-weight:500;
-  font-size: clamp(1.15rem, 2vw, 1.45rem);
+  font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  font-weight: 600;
   color: var(--ink-dim);
-  letter-spacing:0;
-  margin-top: 0.5rem;
+  margin-top: 0.6rem;
 }
 .exhibit-project{ margin-bottom: 5rem; }
 .exhibit-project:last-of-type{ margin-bottom: 2rem; }
@@ -521,6 +520,15 @@ section{ position: relative; padding: 7.5rem 0; }
 /* alternating media / text layout, inspired by a reference site Kate liked —
    single flat background (no per-film backdrop image), unlike the reference. */
 #works{ padding-top: 7.5rem; }
+#works .section-head{ margin-bottom: 3.6rem; padding-bottom: 2.4rem; border-bottom: 1px solid var(--line); }
+/* same reasoning as the exhibition-teasers subtitle: keep it clearly a step
+   below the film titles that follow (film-title: 2-3.2rem/800/uppercase) */
+#works .section-head .section-title{
+  font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  font-weight: 600;
+  color: var(--ink-dim);
+  margin-top: 0.6rem;
+}
 .film{
   display:grid; grid-template-columns: 1.65fr 1fr;
   gap: clamp(2.5rem, 6vw, 5rem);
@@ -1829,8 +1837,8 @@ footer{
 <section id="teasers">
   <div class="wrap">
     <div class="section-head exhibit-head reveal">
-      <div class="eyebrow">Выставки</div>
-      <h2 class="section-title">Тизеры к открытиям</h2>
+      <div class="eyebrow">Тизеры к выставкам</div>
+      <h2 class="section-title">Съемка и монтаж для галерейных открытий</h2>
     </div>
   </div>
 
