@@ -818,40 +818,33 @@ section{ position: relative; padding: 7.5rem 0; }
 .reel-case-title{
   font-family:'Unbounded', sans-serif; font-weight:700;
   font-size: clamp(1.25rem, 2.2vw, 1.6rem);
-  margin: 0 0 1.5rem;
+  margin: 0 0 0.8rem;
 }
-.reel-footnote{
-  margin-top: 1.7rem; font-size:0.86rem; color: var(--ink-faint); font-style:italic;
-}
-.insta-note-mark{
-  font-size: 0.7em; vertical-align: text-top; margin-left: 0.1em; line-height:0;
+/* one-line context under each case title — same job the .logline paragraph
+   does for a film, just shorter, so a case never sits bare above its media */
+.reel-case-desc{
+  color: var(--ink-dim); font-size: 1rem; max-width: 56ch; margin: 0 0 1.6rem;
 }
 
-/* circular avatar credit, echoes an Instagram profile row — a distinct
-   bordered card (not just a top rule) so it reads as its own block,
-   clearly apart from the reel grid above it */
-.insta-credit{
-  display:flex; align-items:center; gap: 1.2rem;
-  margin: 0 0 2rem; padding: 1.5rem 1.7rem;
-  border: 1px solid var(--line); border-radius: 8px; background: var(--bg-raised-2);
-  max-width: 620px;
+/* account row for the @filmnapolke case — a small inline avatar + handle,
+   same weight as a case title, not a separate bordered card */
+.account-row{
+  display:flex; align-items:center; gap: 0.9rem; margin-bottom: 0.8rem;
 }
-.insta-credit .eyebrow{ margin-bottom: 0.6rem; }
-.insta-avatar{
-  flex:none; width: 62px; height:62px; border-radius:50%; padding: 3px;
+.account-avatar{
+  flex:none; width: 40px; height:40px; border-radius:50%; padding: 2px;
   background: conic-gradient(from 200deg, var(--wine-strong), var(--accent), var(--accent-strong), var(--wine-strong));
 }
-.insta-avatar img{
+.account-avatar img{
   width:100%; height:100%; object-fit:cover; border-radius:50%; display:block;
   border: 2px solid var(--bg-raised);
 }
-.insta-handle{
-  display:inline-block; font-family:'Unbounded', sans-serif; font-weight:600; font-size:1.02rem;
-  text-decoration:none; color: var(--ink); margin-bottom: 0.4rem;
+.account-handle{
+  font-family:'Unbounded', sans-serif; font-weight:700; font-size: clamp(1.25rem, 2.2vw, 1.6rem);
+  text-decoration:none; color: var(--ink);
   transition: color 0.25s ease;
 }
-.insta-handle:hover{ color: var(--accent-strong); }
-.insta-copy p{ margin:0; color: var(--ink-dim); font-size:0.9rem; max-width:46ch; }
+.account-handle:hover{ color: var(--accent-strong); }
 
 /* ============ CONTACT ============ */
 #contact{
@@ -1995,11 +1988,12 @@ footer{
   <div class="wrap">
     <div class="section-head reveal">
       <div class="eyebrow">Рилсы</div>
-      <h2 class="section-title">Короткий вертикальный формат для соцсетей</h2>
+      <h2 class="section-title">Короткий формат для соцсетей</h2>
     </div>
 
     <span class="film-index">01</span>
     <h3 class="reel-case-title">Beautiful Things</h3>
+    <p class="reel-case-desc">Смонтирован из кадров, снятых на улицах Будапешта и Копенгагена</p>
   </div>
 
   <div class="reel-fullbleed reveal">
@@ -2017,27 +2011,23 @@ footer{
   <div class="wrap">
     <div class="reel-case reveal" style="border-top:1px solid var(--line); padding-top:2.8rem; margin-top:0;">
       <span class="film-index">02</span>
-      <div class="insta-credit">
-        <div class="insta-avatar"><img src="web_images/logo_filmnapolke.png" alt="Аватар аккаунта filmnapolke"></div>
-        <div class="insta-copy">
-          <div class="eyebrow"><span>Вела<sup class="insta-note-mark">*</sup></span></div>
-          <a class="insta-handle" href="https://instagram.com/filmnapolke" target="_blank" rel="noopener">@filmnapolke ↗</a>
-        </div>
+      <div class="account-row">
+        <div class="account-avatar"><img src="web_images/logo_filmnapolke.png" alt="Аватар аккаунта filmnapolke"></div>
+        <a class="account-handle" href="https://instagram.com/filmnapolke" target="_blank" rel="noopener">@filmnapolke ↗</a>
       </div>
+      <p class="reel-case-desc">Instagram режиссерской мастерской Ивана И. Твердовского, которую я вела с одногруппниками — три рилса ниже придумала и сняла я сама</p>
 
       <div class="reel-grid">
         <div class="reel-frame" style="aspect-ratio: 9 / 16;">
-          <video src="web_images/reels/reel1.mp4" autoplay muted loop playsinline controls></video>
+          <video src="web_images/reels/reel1.mp4" poster="web_images/reels/reel1_poster.jpg" autoplay muted loop playsinline></video>
         </div>
         <div class="reel-frame" style="aspect-ratio: 9 / 16;">
-          <video src="web_images/reels/reel2.mp4" autoplay muted loop playsinline controls></video>
+          <video src="web_images/reels/reel2.mp4" poster="web_images/reels/reel2_poster.jpg" autoplay muted loop playsinline></video>
         </div>
         <div class="reel-frame" style="aspect-ratio: 9 / 16;">
-          <video src="web_images/reels/reel3.mp4" autoplay muted loop playsinline controls></video>
+          <video src="web_images/reels/reel3.mp4" poster="web_images/reels/reel3_poster.jpg" autoplay muted loop playsinline></video>
         </div>
       </div>
-
-      <p class="reel-footnote">*не все рилсы в профиле были созданы мной</p>
     </div>
   </div>
 </section>
