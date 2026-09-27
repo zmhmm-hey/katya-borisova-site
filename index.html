@@ -317,12 +317,15 @@ nav.links a.active::after, nav.links a:hover::after{ right:0; }
   gap: 2px;
 }
 .editing-poster{
-  position:relative; overflow:hidden; background:#000;
+  display:block; position:relative; overflow:hidden; background:#000;
   aspect-ratio: 3/4;
 }
 .editing-poster img{
   width:100%; height:100%; object-fit:cover; display:block;
+  filter: saturate(0.95) brightness(0.72);
+  transition: filter 0.3s ease, transform 6s ease;
 }
+.editing-poster:hover img{ filter: saturate(1) brightness(0.6); transform: scale(1.04); }
 
 /* a case title can also be a link (YouTube channel) — same treatment as
    the other case-title links on the site (account-handle, insta-handle) */
@@ -966,7 +969,7 @@ footer{
     </div>
 
     <!-- FILM 1 -->
-    <article class="film reveal">
+    <article class="film reveal" id="film-papa">
       <div class="film-media film-media--poster">
         <img src="web_images/poster_papa.jpg" alt="Постер «А вы не видели моего папу?»">
       </div>
@@ -997,7 +1000,7 @@ footer{
     </article>
 
     <!-- FILM 2 -->
-    <article class="film film--alt reveal">
+    <article class="film film--alt reveal" id="film-allo">
       <div class="film-content">
         <span class="film-index">02</span>
         <h3 class="film-title">«Алло, люблю»</h3>
@@ -1033,7 +1036,7 @@ footer{
     </article>
 
     <!-- FILM 3 -->
-    <article class="film reveal">
+    <article class="film reveal" id="film-matveevka">
       <div class="film-media film-media--poster">
         <img src="web_images/poster_matveevka.jpg" alt="Постер «Остановка Матвеевка»">
       </div>
@@ -1945,14 +1948,14 @@ footer{
     <div class="reel-case reveal" style="padding-top:0; margin-top:0; border-top:none;">
       <span class="film-index">01</span>
       <h3 class="reel-case-title">Короткометражные фильмы</h3>
-      <p class="reel-case-desc">Три фильма, где я была режиссером монтажа — подробнее в разделе «Кино»</p>
+      <p class="reel-case-desc">Три фильма, где я была режиссером монтажа</p>
     </div>
   </div>
   <div class="editing-fullbleed reveal">
     <div class="editing-poster-row">
-      <div class="editing-poster"><img src="web_images/poster_papa.jpg" alt="Постер «А вы не видели моего папу?»"></div>
-      <div class="editing-poster"><img src="web_images/poster_allo.jpg" alt="Постер «Алло, люблю»"></div>
-      <div class="editing-poster"><img src="web_images/poster_matveevka.jpg" alt="Постер «Остановка Матвеевка»"></div>
+      <a class="editing-poster" href="#films" data-goto-film="film-papa" aria-label="Открыть фильм «А вы не видели моего папу?»"><img src="web_images/poster_papa.jpg" alt="Постер «А вы не видели моего папу?»"></a>
+      <a class="editing-poster" href="#films" data-goto-film="film-allo" aria-label="Открыть фильм «Алло, люблю»"><img src="web_images/poster_allo.jpg" alt="Постер «Алло, люблю»"></a>
+      <a class="editing-poster" href="#films" data-goto-film="film-matveevka" aria-label="Открыть фильм «Остановка Матвеевка»"><img src="web_images/poster_matveevka.jpg" alt="Постер «Остановка Матвеевка»"></a>
     </div>
   </div>
 
@@ -2224,6 +2227,21 @@ footer{
   tabs.forEach(function(t){
     t.addEventListener('click', function(){
       activateTab(t.getAttribute('data-tab'), {scroll:true});
+    });
+  });
+
+  // editing-section poster thumbnails jump straight to that film's card in
+  // the Films tab, instead of just naming the section in the text.
+  document.querySelectorAll('[data-goto-film]').forEach(function(link){
+    link.addEventListener('click', function(e){
+      e.preventDefault();
+      activateTab('films');
+      var target = document.getElementById(link.getAttribute('data-goto-film'));
+      if(target){
+        requestAnimationFrame(function(){
+          target.scrollIntoView({behavior:'smooth', block:'start'});
+        });
+      }
     });
   });
 
