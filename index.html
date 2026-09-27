@@ -346,6 +346,41 @@ nav.links a.active::after, nav.links a:hover::after{ right:0; }
   .editing-clip-grid{ grid-template-columns: 1fr; gap: 2px; }
 }
 
+/* ============ AI ============ */
+/* reuses .vlog-card's shell (border, radius, hover-lift) and .film-index
+   for numbering -- only the taller cover (matches the posters' 3/4 ratio)
+   and the caption block below are new here. */
+.ai-grid{
+  display:grid; grid-template-columns: repeat(3, 1fr); gap: 1.6rem;
+  margin-top: 2.2rem;
+}
+.ai-card{
+  display:block; text-decoration:none; color:inherit;
+  border:1px solid var(--line); border-radius:6px; overflow:hidden;
+  background: var(--bg-raised-2);
+  transition: border-color .25s ease, transform .25s ease;
+}
+.ai-card:hover{ border-color: var(--accent); transform: translateY(-3px); }
+.ai-cover{ position:relative; aspect-ratio: 3/4; overflow:hidden; }
+.ai-cover img{
+  width:100%; height:100%; object-fit:cover; display:block;
+  transition: transform 0.6s cubic-bezier(.2,.7,.2,1);
+}
+.ai-card:hover .ai-cover img{ transform: scale(1.05); }
+.ai-body{ padding: 1.2rem 1.3rem 1.4rem; }
+.ai-body .film-index{ margin-bottom:0.6rem; }
+.ai-title{ font-family:'Unbounded', sans-serif; font-weight:700; font-size:1.05rem; margin:0 0 0.6rem; line-height:1.32; }
+.ai-desc{ color: var(--ink-dim); font-size:0.88rem; margin:0 0 1rem; }
+.ai-link{
+  display:inline-flex; align-items:center; gap:0.4em;
+  font-family:'IBM Plex Mono', monospace; font-size:0.72rem; letter-spacing:0.04em;
+  color: var(--accent); transition: color 0.25s ease;
+}
+.ai-card:hover .ai-link{ color: var(--accent-strong); }
+@media (max-width: 860px){
+  .ai-grid{ grid-template-columns: 1fr; }
+}
+
 /* ============ EXHIBITION TEASERS ============ */
 /* filled entries reuse the .film / .trailer patterns from Works, full-bleed,
    so an exhibition project reads with the same weight as a short film —
@@ -901,6 +936,7 @@ footer{
       <button class="tab" type="button" data-tab="teasers" role="tab" aria-selected="false">Exhibition Teasers</button>
       <button class="tab" type="button" data-tab="editing" role="tab" aria-selected="false">Editing</button>
       <button class="tab" type="button" data-tab="reels" role="tab" aria-selected="false">Reels</button>
+      <button class="tab" type="button" data-tab="ai" role="tab" aria-selected="false">AI</button>
     </div>
   </div>
 </div>
@@ -2034,6 +2070,47 @@ footer{
 </section>
 </div><!-- /panel-reels -->
 
+<div class="panel" id="panel-ai" role="tabpanel">
+<section id="ai">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">AI</div>
+      <h2 class="section-title">Проекты с нейросетями</h2>
+    </div>
+
+    <div class="ai-grid reveal">
+      <a class="ai-card" href="https://deziiign.com/project/2a42c2c6a2dd407598fc25dcac9e2f25" target="_blank" rel="noopener">
+        <div class="ai-cover"><img src="web_images/ai_kandinsky.jpg" alt="Изображение, сгенерированное в стиле Кандинского"></div>
+        <div class="ai-body">
+          <span class="film-index">01</span>
+          <h3 class="ai-title">Обучение Stable Diffusion под стиль Кандинского</h3>
+          <p class="ai-desc">Дообучила Stable Diffusion XL (DreamBooth + LoRA) на картинах Кандинского и сгенерировала серию новых работ в его стиле</p>
+          <span class="ai-link">Читать на deziiign ↗</span>
+        </div>
+      </a>
+      <a class="ai-card" href="https://deziiign.com/project/pixel-light-blocks-e6f34e0ec59e4233825666d41ee672d9" target="_blank" rel="noopener">
+        <div class="ai-cover"><img src="web_images/ai_pixel_blocks.jpg" alt="Pixel Light Blocks — светильники-кубы"></div>
+        <div class="ai-body">
+          <span class="film-index">02</span>
+          <h3 class="ai-title">Pixel Light Blocks</h3>
+          <p class="ai-desc">Серия пиксельных светильников-кубов в эстетике Minecraft — от генеративных эскизов до 3D-моделей для печати</p>
+          <span class="ai-link">Читать на deziiign ↗</span>
+        </div>
+      </a>
+      <a class="ai-card" href="https://deziiign.com/project/bfcd489ef24741ddbb19a8ddb7553c50" target="_blank" rel="noopener">
+        <div class="ai-cover"><img src="web_images/ai_kamen.jpg" alt="Логотип бренда КАМЕN"></div>
+        <div class="ai-body">
+          <span class="film-index">03</span>
+          <h3 class="ai-title">КАМЕN</h3>
+          <p class="ai-desc">Полностью сгенерированный нейросетями бренд магазина камней — от айдентики и интерьеров до промо-материалов</p>
+          <span class="ai-link">Читать на deziiign ↗</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+</div><!-- /panel-ai -->
+
 <section id="contact">
   <div class="wrap">
     <div class="eyebrow" style="justify-content:center;">Контакты</div>
@@ -2111,7 +2188,8 @@ footer{
     photography: document.getElementById('panel-photography'),
     teasers: document.getElementById('panel-teasers'),
     editing: document.getElementById('panel-editing'),
-    reels: document.getElementById('panel-reels')
+    reels: document.getElementById('panel-reels'),
+    ai: document.getElementById('panel-ai')
   };
 
   function activateTab(name, opts){
