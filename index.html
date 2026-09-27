@@ -764,13 +764,24 @@ section{ position: relative; padding: 7.5rem 0; }
   border-radius:0; border-left:none; border-right:none; box-shadow:none;
 }
 .reel-frame{
-  position:relative; width:100%; overflow:hidden; border-radius:6px;
+  position:relative; display:block; width:100%; overflow:hidden; border-radius:6px;
   background:#000; border:1px solid var(--line);
   box-shadow: 0 24px 50px -18px var(--shadow);
 }
 .reel-frame video{
   position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; background:#000;
 }
+/* small always-visible badge on a grid clip that links out to the real
+   Instagram post — no big play button, the clip is already autoplaying */
+.reel-open-badge{
+  position:absolute; right:0.6rem; bottom:0.6rem; z-index:1;
+  display:flex; align-items:center; gap:0.35em;
+  font-family:'IBM Plex Mono', monospace; font-size:0.66rem; letter-spacing:0.04em;
+  color: var(--ink); background: rgba(15,9,5,0.55);
+  padding: 0.4rem 0.65rem; border-radius: 999px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+a.reel-frame:hover .reel-open-badge{ background: var(--accent); color: var(--bg); }
 .reel-link{
   position:absolute; inset:0; width:100%; height:100%;
   display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.9rem;
@@ -2018,15 +2029,18 @@ footer{
       <p class="reel-case-desc">Instagram режиссерской мастерской Ивана И. Твердовского, которую я вела с одногруппниками — три рилса ниже придумала и сняла я сама</p>
 
       <div class="reel-grid">
-        <div class="reel-frame" style="aspect-ratio: 9 / 16;">
+        <a class="reel-frame" style="aspect-ratio: 9 / 16;" href="https://www.instagram.com/reel/DD1RxerqbHi/" target="_blank" rel="noopener" aria-label="Смотреть рилс в Instagram">
           <video src="web_images/reels/reel1.mp4" poster="web_images/reels/reel1_poster.jpg" autoplay muted loop playsinline></video>
-        </div>
-        <div class="reel-frame" style="aspect-ratio: 9 / 16;">
+          <span class="reel-open-badge">Instagram ↗</span>
+        </a>
+        <a class="reel-frame" style="aspect-ratio: 9 / 16;" href="https://www.instagram.com/reel/DHgn0WQKXME/" target="_blank" rel="noopener" aria-label="Смотреть рилс в Instagram">
           <video src="web_images/reels/reel2.mp4" poster="web_images/reels/reel2_poster.jpg" autoplay muted loop playsinline></video>
-        </div>
-        <div class="reel-frame" style="aspect-ratio: 9 / 16;">
+          <span class="reel-open-badge">Instagram ↗</span>
+        </a>
+        <a class="reel-frame" style="aspect-ratio: 9 / 16;" href="https://www.instagram.com/reel/DByT0BniOkj/" target="_blank" rel="noopener" aria-label="Смотреть рилс в Instagram">
           <video src="web_images/reels/reel3.mp4" poster="web_images/reels/reel3_poster.jpg" autoplay muted loop playsinline></video>
-        </div>
+          <span class="reel-open-badge">Instagram ↗</span>
+        </a>
       </div>
     </div>
   </div>
