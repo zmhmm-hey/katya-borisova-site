@@ -324,26 +324,10 @@ nav.links a.active::after, nav.links a:hover::after{ right:0; }
   width:100%; height:100%; object-fit:cover; display:block;
 }
 
-.editing-channel-name{
-  font-family:'Unbounded', sans-serif; font-weight:700;
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  margin: 0.9rem 0 0.3rem;
-}
-.editing-channel-name a{
-  text-decoration:none; color: var(--ink);
-  transition: color 0.25s ease;
-}
-.editing-channel-name a:hover{ color: var(--accent); }
-
-.play-card{
-  display:block; border:1px solid var(--line); border-radius:6px; padding: 1.6rem;
-  background: var(--bg-raised-2); margin: 1.6rem 0 2.2rem; max-width: 620px;
-}
-.play-card-title{
-  font-family:'Unbounded', sans-serif; font-weight:700; font-size:1.2rem; margin: 0 0 0.7rem;
-}
-.play-card-meta{ font-size:0.92rem; color: var(--ink-dim); line-height:1.65; margin-bottom:1.1rem; }
-.play-card-meta b{ color: var(--ink); font-weight:600; }
+/* a case title can also be a link (YouTube channel) — same treatment as
+   the other case-title links on the site (account-handle, insta-handle) */
+.reel-case-title a{ color:inherit; text-decoration:none; transition: color 0.25s ease; }
+.reel-case-title a:hover{ color: var(--accent-strong); }
 
 /* two silent looping clips from "До поезда осталось", edge-to-edge across
    the full screen width (same full-bleed technique as .film-trailer-fullbleed
@@ -1922,6 +1906,13 @@ footer{
     </div>
   </div><!-- /wrap -->
 
+  <div class="wrap">
+    <div class="reel-case reveal" style="padding-top:0; margin-top:0; border-top:none;">
+      <span class="film-index">01</span>
+      <h3 class="reel-case-title">Короткометражные фильмы</h3>
+      <p class="reel-case-desc">Три фильма, где я была режиссером монтажа — подробнее в разделе «Кино»</p>
+    </div>
+  </div>
   <div class="editing-fullbleed reveal">
     <div class="editing-poster-row">
       <div class="editing-poster"><img src="web_images/poster_papa.jpg" alt="Постер «А вы не видели моего папу?»"></div>
@@ -1931,10 +1922,10 @@ footer{
   </div>
 
   <div class="wrap">
-    <div class="photo-group reveal">
-      <div class="eyebrow">Ютуб-канал</div>
-      <h3 class="editing-channel-name"><a href="https://www.youtube.com/@limeihuahong" target="_blank" rel="noopener">limeihuahong ↗</a></h3>
-      <p style="color:var(--ink-dim); max-width:58ch; font-size:1.05rem; margin-top:0.2rem;">Смонтировала влоги, выпущенные с октября 2024 по август 2025</p>
+    <div class="reel-case reveal" style="border-top:1px solid var(--line); padding-top:2.8rem; margin-top:2.8rem;">
+      <span class="film-index">02</span>
+      <h3 class="reel-case-title"><a href="https://www.youtube.com/@limeihuahong" target="_blank" rel="noopener">limeihuahong ↗</a></h3>
+      <p class="reel-case-desc">Смонтировала влоги, выпущенные с октября 2024 по август 2025</p>
     </div>
   </div><!-- /wrap -->
 
@@ -1965,20 +1956,17 @@ footer{
   </div>
 
   <div class="wrap">
-    <div class="photo-group reveal">
-      <div class="eyebrow">Видеозапись спектакля «До поезда осталось»</div>
-      <p style="color:var(--ink-dim); max-width:58ch; font-size:1.05rem; margin-top:-0.6rem;">Смонтировала видеозапись спектакля целиком — ниже два эпизода из монтажа.</p>
-      <div class="play-card">
-        <div class="play-card-title">«До поезда осталось»</div>
-        <div class="play-card-meta">
-          Электротеатр Станиславский · режиссер <b>Ирина Михеева</b><br>
-          Танцевальный спектакль по мотивам «Анны Карениной» — тело вместо слов, метафорический образ вместо декораций.<br>
-          В ролях: <b>Дарья Павленко</b>, <b>Владислав Лантратов</b>, <b>Михаил Шиманский</b>
-        </div>
-        <a class="kinopoisk-link" href="https://electrotheatre.ru/repertoire/spectacle/1248" target="_blank" rel="noopener">О спектакле ↗</a>
+    <div class="reel-case reveal" style="border-top:1px solid var(--line); padding-top:2.8rem; margin-top:2.8rem;">
+      <span class="film-index">03</span>
+      <h3 class="reel-case-title">«До поезда осталось»</h3>
+      <p class="reel-case-desc">Смонтировала видеозапись спектакля целиком — танцевальная постановка по мотивам «Анны Карениной», тело вместо слов и метафора вместо декораций. Ниже — два эпизода из монтажа.</p>
+      <div class="credits">
+        <div><div class="role">Театр</div><div class="names">Электротеатр Станиславский</div></div>
+        <div><div class="role">Режиссер</div><div class="names">Ирина Михеева</div></div>
+        <div><div class="role">В ролях</div><div class="names">Дарья Павленко, Владислав Лантратов, Михаил Шиманский</div></div>
       </div>
+      <a class="kinopoisk-link" href="https://electrotheatre.ru/repertoire/spectacle/1248" target="_blank" rel="noopener">О спектакле ↗</a>
     </div>
-
   </div>
 
   <div class="editing-fullbleed reveal">
